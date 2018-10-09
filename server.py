@@ -1,19 +1,38 @@
-import tornado.ioloop
-import tornado.web
+from tornado.ioloop import IOLoop
+from tornado.options import options
+from tornado.web import Application, RequestHandler
+
+from graph.handlers import GraphExampleHandler
+from settings import settings
 
 
-class MainHandler(tornado.web.RequestHandler):
+class StatusHandler(RequestHandler):
     def get(self):
-        self.write("Hello, world")
+        response = {
+            'message': 'ok',
+            'status': 400,
+            'version': '1.0.0',
+        }
+        self.write(response)
 
 
 def make_app():
-    return tornado.web.Application([
-        (r"/", MainHandler),
-    ])
+    return Application(
+        [
+            (r"/", StatusHandler),
+            (r"/graphs/example", GraphExampleHandler),
+        ],
+        **settings
+    )
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
+    options.parse_command_line()
     app = make_app()
-    app.listen(8888)
-    tornado.ioloop.IOLoop.current().start()
+    app.listen(options.port)
+    print 'Starting server on http://127.0.0.1:{port}'.format(port=options.port)
+
+    try:
+        IOLoop.instance().start()
+    except KeyboardInterrupt:
+        print '\nStopping server.'

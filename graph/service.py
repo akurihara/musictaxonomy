@@ -1,6 +1,4 @@
-import ujson
-
-from example_response import LONG_TERM_ARTISTS
+from graph.models import SpotifyArtist, TaxonomyGraph
 
 
 def parse_artists_from_spotify_response(spotify_response):
@@ -9,7 +7,7 @@ def parse_artists_from_spotify_response(spotify_response):
 
 
 def _parse_artist_from_spotify_artist(spotify_artist):
-    return Artist(
+    return SpotifyArtist(
         id=spotify_artist['id'],
         name=spotify_artist['name'],
         genres=spotify_artist['genres'],
@@ -34,12 +32,3 @@ def build_taxonomy_graph_from_artists(artists):
         taxonomy_graph.add_edge(genre_node, artist_node)
 
     return taxonomy_graph
-
-
-if __name__ == '__main__':
-    artists = parse_artists_from_spotify_response(ujson.loads(LONG_TERM_ARTISTS))
-    taxonomy_graph = build_taxonomy_graph_from_artists(artists)
-
-    for node in taxonomy_graph:
-        for neighbor in node.get_neighbors():
-            print '  "{}" -> "{}"'.format(node.id, neighbor.id)
