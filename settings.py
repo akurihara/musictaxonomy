@@ -1,3 +1,5 @@
+import os
+
 import tornado
 import tornado.options
 from tornado.options import define
@@ -46,3 +48,14 @@ settings = {
     # static_url_prefix: Url prefix for static files, defaults to "/static/".
     # 'static_url_prefix': '/static/',
 }
+
+
+#
+# Application Settings
+#
+
+# Spotify
+SPOTIFY_AUTHORIZE_BASE_URL = 'https://api.spotify.com/v1'
+SPOTIFY_API_BASE_URL = 'https://api.spotify.com/v1'
+SPOTIFY_CLIENT_ID = os.environ.get('SPOTIFY_CLIENT_ID')
+SPOTIFY_CLIENT_SECRET = os.environ.get('SPOTIFY_CLIENT_SECRET')

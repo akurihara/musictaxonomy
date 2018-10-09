@@ -1,6 +1,12 @@
 from graph.models import SpotifyArtist, TaxonomyGraph
 
 
+__all__ = [
+    'parse_artists_from_spotify_response',
+    'build_taxonomy_graph_from_artists',
+]
+
+
 def parse_artists_from_spotify_response(spotify_response):
     spotify_artists = spotify_response['items']
     return [_parse_artist_from_spotify_artist(artist) for artist in spotify_artists]

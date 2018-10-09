@@ -1,12 +1,12 @@
 import json
 
-import tornado.web
+from tornado.web import RequestHandler
 
 from example_response import LONG_TERM_ARTISTS
 from graph import service as graph_service
 
 
-class GraphExampleHandler(tornado.web.RequestHandler):
+class GraphExampleHandler(RequestHandler):
 
     def get(self):
         artists = graph_service.parse_artists_from_spotify_response(json.loads(LONG_TERM_ARTISTS))

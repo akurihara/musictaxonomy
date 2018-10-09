@@ -2,6 +2,7 @@ from tornado.ioloop import IOLoop
 from tornado.options import options
 from tornado.web import Application, RequestHandler
 
+from auth.handlers import LoginHandler
 from graph.handlers import GraphExampleHandler
 from settings import settings
 
@@ -21,6 +22,7 @@ def make_app():
         [
             (r"/", StatusHandler),
             (r"/graphs/example", GraphExampleHandler),
+            (r"/login", LoginHandler),
         ],
         **settings
     )
