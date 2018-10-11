@@ -17,7 +17,7 @@ class LoginHandler(RequestHandler):
             'client_id': SPOTIFY_CLIENT_ID,
             'response_type': 'code',
             'redirect_uri': 'http://localhost:8080/callback',
-            'scopes': 'user-top-read',
+            # 'scopes': 'user-top-read',
         }
         spotify_authorize_url = '{base}?{query_string}'.format(
             base=SPOTIFY_AUTHORIZE_URL,
