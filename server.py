@@ -2,7 +2,7 @@ from tornado.ioloop import IOLoop
 from tornado.options import options
 from tornado.web import Application, RequestHandler
 
-from auth.handlers import LoginHandler
+from auth.handlers import LoginHandler, SpotifyAuthorizeCallbackHandler
 from graph.handlers import GraphExampleHandler
 from settings import settings
 
@@ -23,6 +23,7 @@ def make_app():
             (r"/", StatusHandler),
             (r"/graphs/example", GraphExampleHandler),
             (r"/login", LoginHandler),
+            (r"/callback", SpotifyAuthorizeCallbackHandler),
         ],
         **settings
     )
@@ -37,4 +38,4 @@ if __name__ == '__main__':
     try:
         IOLoop.instance().start()
     except KeyboardInterrupt:
-        print '\nStopping server.'
+        print '\nStopping server'
