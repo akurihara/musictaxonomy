@@ -1,11 +1,12 @@
+from __future__ import absolute_import
 import json
 
-from tornado.web import RequestHandler
 from tornado.httpclient import HTTPClient
 import urllib
 
 from auth.models import SpotifyAuthorization
 from database_utils import Session
+from handlers import BaseAPIHandler
 from settings import (
     SPOTIFY_AUTHORIZE_URL,
     SPOTIFY_TOKEN_URL,
@@ -14,7 +15,7 @@ from settings import (
 )
 
 
-class LoginHandler(RequestHandler):
+class LoginHandler(BaseAPIHandler):
 
     def get(self):
         access_token = self.get_cookie('AccessToken')
@@ -36,7 +37,7 @@ class LoginHandler(RequestHandler):
         return self.redirect(spotify_authorize_url, permanent=False)
 
 
-class SpotifyAuthorizeCallbackHandler(RequestHandler):
+class OauthCallbackHandler(BaseAPIHandler):
 
     def get(self):
         authorization_code = self.get_argument('code')

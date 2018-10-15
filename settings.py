@@ -31,7 +31,7 @@ settings = {
     # 'login_url': '/login/',
 
     # xsrf_cookies: If true, Cross-site request forgery protection will be enabled.
-    'xsrf_cookies': True,
+    'xsrf_cookies': False,
 
     # autoescape: Controls automatic escaping for templates.
     # May be set to None to disable escaping, or to the name of a function

@@ -1,12 +1,14 @@
+from __future__ import absolute_import
 import json
 
-from tornado.web import RequestHandler
+from tornado.web import HTTPError
 
 from example_response import LONG_TERM_ARTISTS
 from graph import service as graph_service
+from handlers import BaseAPIHandler
 
 
-class TaxonomyGraphExampleHandler(RequestHandler):
+class TaxonomyGraphExampleHandler(BaseAPIHandler):
 
     def get(self):
         artists = graph_service.parse_artists_from_spotify_response(json.loads(LONG_TERM_ARTISTS))
@@ -21,7 +23,13 @@ class TaxonomyGraphExampleHandler(RequestHandler):
         return self.write(response)
 
 
-class CreateTaxonomyGraphHandler(RequestHandler):
+class CreateTaxonomyGraphHandler(BaseAPIHandler):
+
+    def get(self):
+        return self.write('hello')
 
     def post(self):
-        return self.write('hello')
+        print '** hello'
+        access_token = self.get_cookie('AccessToken')
+        print access_token
+        raise HTTPError(reason='Must be logged in.')
