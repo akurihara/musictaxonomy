@@ -1,7 +1,11 @@
+import json
+
 from tornado.web import RequestHandler
 from tornado.httpclient import HTTPClient
 import urllib
 
+from auth.models import SpotifyAuthorization
+from database_utils import Session
 from settings import (
     SPOTIFY_AUTHORIZE_URL,
     SPOTIFY_TOKEN_URL,
@@ -13,6 +17,11 @@ from settings import (
 class LoginHandler(RequestHandler):
 
     def get(self):
+        access_token = self.get_cookie('AccessToken')
+        if access_token:
+            self.write('Already logged in')
+            return
+
         query_parameters = {
             'client_id': SPOTIFY_CLIENT_ID,
             'response_type': 'code',
@@ -24,7 +33,7 @@ class LoginHandler(RequestHandler):
             query_string=urllib.urlencode(query_parameters),
         )
 
-        self.redirect(spotify_authorize_url, permanent=True)
+        return self.redirect(spotify_authorize_url, permanent=False)
 
 
 class SpotifyAuthorizeCallbackHandler(RequestHandler):
@@ -46,4 +55,18 @@ class SpotifyAuthorizeCallbackHandler(RequestHandler):
             body=body
         )
 
-        self.write(response.body)
+        parsed_response = json.loads(response.body)
+        access_token = parsed_response['access_token']
+        refresh_token = parsed_response['refresh_token']
+
+        spotify_authorization = SpotifyAuthorization(
+            access_token=access_token,
+            refresh_token=refresh_token,
+        )
+        session = Session()
+        session.add(spotify_authorization)
+        session.commit()
+
+        self.set_cookie('AccessToken', access_token)
+
+        return self.write({'success': True})

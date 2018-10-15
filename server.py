@@ -3,7 +3,7 @@ from tornado.options import options
 from tornado.web import Application, RequestHandler
 
 from auth.handlers import LoginHandler, SpotifyAuthorizeCallbackHandler
-from graph.handlers import GraphExampleHandler
+from graph.handlers import CreateTaxonomyGraphHandler, TaxonomyGraphExampleHandler
 from settings import settings
 
 
@@ -11,7 +11,7 @@ class StatusHandler(RequestHandler):
     def get(self):
         response = {
             'message': 'ok',
-            'status': 400,
+            'status': 200,
             'version': '1.0.0',
         }
         self.write(response)
@@ -21,7 +21,8 @@ def make_app():
     return Application(
         [
             (r"/", StatusHandler),
-            (r"/graphs/example", GraphExampleHandler),
+            (r"/taxonomy_graphs", CreateTaxonomyGraphHandler),
+            (r"/taxonomy_graphs/example", TaxonomyGraphExampleHandler),
             (r"/login", LoginHandler),
             (r"/callback", SpotifyAuthorizeCallbackHandler),
         ],

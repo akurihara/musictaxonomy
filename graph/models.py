@@ -7,7 +7,7 @@ class Artist(Base):
     __tablename__ = 'artists'
 
     id = Column(Integer, primary_key=True)
-    spotify_id = Column(String(255), nullable=False)
+    spotify_id = Column(String(255), nullable=False, index=True)
     name = Column(String(255), nullable=False)
 
 

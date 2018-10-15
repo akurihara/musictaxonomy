@@ -6,7 +6,7 @@ from example_response import LONG_TERM_ARTISTS
 from graph import service as graph_service
 
 
-class GraphExampleHandler(RequestHandler):
+class TaxonomyGraphExampleHandler(RequestHandler):
 
     def get(self):
         artists = graph_service.parse_artists_from_spotify_response(json.loads(LONG_TERM_ARTISTS))
@@ -18,4 +18,10 @@ class GraphExampleHandler(RequestHandler):
                 response_lines.append('  "{}" -> "{}"'.format(node.id, neighbor.id))
 
         response = '\n'.join(response_lines)
-        self.write(response)
+        return self.write(response)
+
+
+class CreateTaxonomyGraphHandler(RequestHandler):
+
+    def post(self):
+        return self.write('hello')
