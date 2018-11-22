@@ -1,8 +1,8 @@
 from __future__ import absolute_import
 import json
 
-from tornado.httpclient import HTTPClient
-import urllib
+from tornado.httpclient import AsyncHTTPClient
+import urllib.parse
 
 from auth.models import SpotifyAuthorization
 from database_utils import Session
@@ -26,12 +26,12 @@ class LoginHandler(BaseAPIHandler):
         query_parameters = {
             'client_id': SPOTIFY_CLIENT_ID,
             'response_type': 'code',
-            'redirect_uri': 'http://localhost:8080/callback',
+            'redirect_uri': 'http://localhost:8080/callback/oauth',
             # 'scopes': 'user-top-read',
         }
         spotify_authorize_url = '{base}?{query_string}'.format(
             base=SPOTIFY_AUTHORIZE_URL,
-            query_string=urllib.urlencode(query_parameters),
+            query_string=urllib.parse.urlencode(query_parameters),
         )
 
         return self.redirect(spotify_authorize_url, permanent=False)
@@ -39,18 +39,18 @@ class LoginHandler(BaseAPIHandler):
 
 class OauthCallbackHandler(BaseAPIHandler):
 
-    def get(self):
+    async def get(self):
         authorization_code = self.get_argument('code')
         post_data = {
             'grant_type': 'authorization_code',
             'code': authorization_code,
-            'redirect_uri': 'http://localhost:8080/callback',
+            'redirect_uri': 'http://localhost:8080/callback/oauth',
             'client_id': SPOTIFY_CLIENT_ID,
             'client_secret': SPOTIFY_CLIENT_SECRET,
         }
-        body = urllib.urlencode(post_data)
-        http_client = HTTPClient()
-        response = http_client.fetch(
+        body = urllib.parse.urlencode(post_data)
+        http_client = AsyncHTTPClient()
+        response = await http_client.fetch(
             SPOTIFY_TOKEN_URL,
             method='POST',
             body=body

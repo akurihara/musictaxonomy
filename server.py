@@ -25,9 +25,9 @@ if __name__ == '__main__':
     options.parse_command_line()
     app = make_app()
     app.listen(options.port)
-    print 'Starting server on http://127.0.0.1:{port}'.format(port=options.port)
+    print('Starting server on http://127.0.0.1:{port}'.format(port=options.port))
 
     try:
         IOLoop.instance().start()
     except KeyboardInterrupt:
-        print '\nStopping server'
+        print('\nStopping server')

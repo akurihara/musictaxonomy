@@ -1,6 +1,6 @@
 import ujson
 
-from example_response import LONG_TERM_ARTISTS
+from .example_response import LONG_TERM_ARTISTS
 
 
 def parse_artists_from_spotify_response(spotify_response):
@@ -42,4 +42,4 @@ if __name__ == '__main__':
 
     for node in taxonomy_graph:
         for neighbor in node.get_neighbors():
-            print '  "{}" -> "{}"'.format(node.id, neighbor.id)
+            print('  "{}" -> "{}"'.format(node.id, neighbor.id))

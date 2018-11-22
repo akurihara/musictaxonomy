@@ -895,7 +895,7 @@ LONG_TERM_ARTISTS = """
                     "width": 160
                 }
             ],
-            "name": "V\u00c9RIT\u00c9",
+            "name": "V\\u00c9RIT\\u00c9",
             "popularity": 59,
             "type": "artist",
             "uri": "spotify:artist:1Fr6agZ6iSM5Ynn2k4C8sc"

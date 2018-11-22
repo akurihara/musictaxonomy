@@ -29,7 +29,7 @@ class CreateTaxonomyGraphHandler(BaseAPIHandler):
         return self.write('hello')
 
     def post(self):
-        print '** hello'
+        print('** hello')
         access_token = self.get_cookie('AccessToken')
-        print access_token
+        print(access_token)
         raise HTTPError(reason='Must be logged in.')
