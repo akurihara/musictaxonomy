@@ -27,7 +27,7 @@ class LoginHandler(BaseAPIHandler):
             'client_id': SPOTIFY_CLIENT_ID,
             'response_type': 'code',
             'redirect_uri': 'http://localhost:8080/callback/oauth',
-            # 'scopes': 'user-top-read',
+            'scope': 'user-top-read',
         }
         spotify_authorize_url = '{base}?{query_string}'.format(
             base=SPOTIFY_AUTHORIZE_URL,
@@ -49,8 +49,7 @@ class OauthCallbackHandler(BaseAPIHandler):
             'client_secret': SPOTIFY_CLIENT_SECRET,
         }
         body = urllib.parse.urlencode(post_data)
-        http_client = AsyncHTTPClient()
-        response = await http_client.fetch(
+        response = await AsyncHTTPClient().fetch(
             SPOTIFY_TOKEN_URL,
             method='POST',
             body=body

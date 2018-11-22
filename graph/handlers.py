@@ -6,6 +6,7 @@ from tornado.web import HTTPError
 from example_response import LONG_TERM_ARTISTS
 from graph import service as graph_service
 from handlers import BaseAPIHandler
+from spotify import client as spotify_client
 
 
 class TaxonomyGraphExampleHandler(BaseAPIHandler):
@@ -25,11 +26,10 @@ class TaxonomyGraphExampleHandler(BaseAPIHandler):
 
 class CreateTaxonomyGraphHandler(BaseAPIHandler):
 
-    def get(self):
-        print('** hello')
+    async def get(self):
         access_token = self.get_cookie('AccessToken')
         if access_token:
-            print(access_token)
-            return self.write(access_token)
+            response = await spotify_client.get_all_top_artists_for_user(access_token)
+            return self.write(response)
         else:
             raise HTTPError(reason='Must be logged in.')
