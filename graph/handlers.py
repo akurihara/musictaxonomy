@@ -26,10 +26,10 @@ class TaxonomyGraphExampleHandler(BaseAPIHandler):
 class CreateTaxonomyGraphHandler(BaseAPIHandler):
 
     def get(self):
-        return self.write('hello')
-
-    def post(self):
         print('** hello')
         access_token = self.get_cookie('AccessToken')
-        print(access_token)
-        raise HTTPError(reason='Must be logged in.')
+        if access_token:
+            print(access_token)
+            return self.write(access_token)
+        else:
+            raise HTTPError(reason='Must be logged in.')
