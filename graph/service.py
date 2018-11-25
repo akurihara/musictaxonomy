@@ -26,6 +26,10 @@ def build_taxonomy_graph_from_artists(artists):
     for artist in artists:
         artist_slug = artist.name.lower()
         artist_node = taxonomy_graph.add_node(artist_slug)
+
+        if not artist.genres:
+            continue
+
         genre = artist.genres[0]
         genre_slug = genre.replace(' ', '-')
 
