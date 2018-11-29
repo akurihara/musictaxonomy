@@ -3,7 +3,7 @@ from tornado.options import options
 from tornado.web import Application
 
 from auth.handlers import LoginHandler, OauthCallbackHandler
-from graph.handlers import CreateTaxonomyGraphHandler, TaxonomyGraphExampleHandler
+from graph.handlers import CreateTaxonomyGraphHandler
 from handlers import StatusHandler
 from settings import settings
 
@@ -13,7 +13,6 @@ def make_app():
         [
             (r"/", StatusHandler),
             (r"/taxonomy_graphs", CreateTaxonomyGraphHandler),
-            (r"/taxonomy_graphs/example", TaxonomyGraphExampleHandler),
             (r"/login", LoginHandler),
             (r"/callback/oauth", OauthCallbackHandler),
         ],
