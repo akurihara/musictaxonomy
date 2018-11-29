@@ -86,7 +86,11 @@ class TaxonomyGraph(object):
         }
 
     def render_in_webgraphviz_format(self):
-        return ''.join([node.render_edges_in_webgraphviz_format() for node in self])
+        return ','.join([
+            edge
+            for node in self
+            for edge in node.get_edges_in_webgraphviz_format()
+        ])
 
     def __contains__(self, node_id):
         return node_id in self.nodes
@@ -112,12 +116,11 @@ class Node(object):
     def render_as_json(self):
         return {'id': self.id}
 
-    def render_edges_in_webgraphviz_format(self):
-        edges = [
+    def get_edges_in_webgraphviz_format(self):
+        return [
             self._render_edge_in_webgraphviz_format(neighbor)
             for neighbor in self.get_neighbors()
         ]
-        return ','.join(edges)
 
     def _render_edge_in_webgraphviz_format(self, neighbor):
         return '"{}" -> "{}"'.format(self.id, neighbor.id)
