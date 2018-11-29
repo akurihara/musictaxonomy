@@ -1,24 +1,9 @@
 from graph.models import TaxonomyGraph
-from spotify.models import SpotifyArtist
 
 
 __all__ = [
-    'parse_artists_from_spotify_response',
     'build_taxonomy_graph_from_spotify_artists',
 ]
-
-
-def parse_artists_from_spotify_response(spotify_response):
-    spotify_artists = spotify_response['items']
-    return [_parse_artist_from_spotify_artist(artist) for artist in spotify_artists]
-
-
-def _parse_artist_from_spotify_artist(spotify_artist):
-    return SpotifyArtist(
-        id=spotify_artist['id'],
-        name=spotify_artist['name'],
-        genres=spotify_artist['genres'],
-    )
 
 
 def build_taxonomy_graph_from_spotify_artists(artists):
@@ -26,6 +11,11 @@ def build_taxonomy_graph_from_spotify_artists(artists):
 
     for artist in artists:
         artist_slug = artist.name.lower()
+
+        # Skip an artist if they already exist in the graph.
+        if artist_slug in taxonomy_graph:
+            continue
+
         artist_node = taxonomy_graph.add_node(artist_slug)
 
         # Skip an artist if they do not have any associated genres.
