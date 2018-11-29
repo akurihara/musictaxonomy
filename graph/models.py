@@ -40,6 +40,16 @@ class TaxonomyGraph(object):
     def get_root_node(self):
         return self.nodes[self.ROOT_ID]
 
+    def get_nodes(self):
+        return self.nodes.values()
+
+    def get_edges(self):
+        return [
+            (node, neighbor)
+            for node in self.get_nodes()
+            for neighbor in node.get_neighbors()
+        ]
+
     def add_node(self, id):
         if id in self.nodes:
             raise Exception('Graph already contains node with ID {}'.format(id))
@@ -61,6 +71,19 @@ class TaxonomyGraph(object):
         second_node = self.get_node(second_node_id) # or self.add_node(second_node_id)
         '''
         first_node.add_neighbor(second_node)
+
+    def render_as_json(self):
+        return {
+            'nodes': [node.render_as_json() for node in self.get_nodes()],
+            'edges': [self._render_edge_as_json(edge) for edge in self.get_edges()],
+        }
+
+    def _render_edge_as_json(self, edge):
+        source_node, destination_node = edge
+        return {
+            'source': source_node.id,
+            'destination': destination_node.id,
+        }
 
     def render_in_webgraphviz_format(self):
         return ''.join([node.render_edges_in_webgraphviz_format() for node in self])
@@ -85,6 +108,9 @@ class Node(object):
 
     def get_neighbors(self):
         return list(self.neighbors)
+
+    def render_as_json(self):
+        return {'id': self.id}
 
     def render_edges_in_webgraphviz_format(self):
         edges = [

@@ -1,5 +1,3 @@
-from __future__ import absolute_import
-
 from tornado.web import HTTPError
 
 from graph import service as graph_service
@@ -18,6 +16,8 @@ class CreateTaxonomyGraphHandler(BaseAPIHandler):
         response = await spotify_client.get_all_top_artists_for_user(access_token)
         artists = graph_service.parse_artists_from_spotify_response(response)
         taxonomy_graph = graph_service.build_taxonomy_graph_from_spotify_artists(artists)
-        response = taxonomy_graph.render_in_webgraphviz_format()
+
+        # response = taxonomy_graph.render_in_webgraphviz_format()
+        response = taxonomy_graph.render_as_json()
 
         return self.write(response)
