@@ -11,6 +11,12 @@ from settings import (
 )
 
 
+__all__ = [
+    'request_access_token',
+    'get_all_top_artists_for_user',
+]
+
+
 async def request_access_token(authorization_code: str):
     post_data = {
         'grant_type': 'authorization_code',

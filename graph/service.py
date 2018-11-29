@@ -1,4 +1,5 @@
-from graph.models import SpotifyArtist, TaxonomyGraph
+from graph.models import TaxonomyGraph
+from spotify.models import SpotifyArtist
 
 
 __all__ = [

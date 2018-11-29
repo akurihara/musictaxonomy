@@ -11,3 +11,7 @@ Base = declarative_base()
 # Instantiate this class for an object for performing database operations.
 Session = sessionmaker()
 Session.configure(bind=engine)
+
+
+def create_tables():
+    Base.metadata.create_all(engine)

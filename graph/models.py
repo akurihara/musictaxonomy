@@ -62,6 +62,9 @@ class TaxonomyGraph(object):
         '''
         first_node.add_neighbor(second_node)
 
+    def render_in_webgraphviz_format(self):
+        return ''.join([node.render_edges_in_webgraphviz_format() for node in self])
+
     def __contains__(self, node_id):
         return node_id in self.nodes
 
@@ -83,20 +86,15 @@ class Node(object):
     def get_neighbors(self):
         return list(self.neighbors)
 
+    def render_edges_in_webgraphviz_format(self):
+        edges = [
+            self._render_edge_in_webgraphviz_format(neighbor)
+            for neighbor in self.get_neighbors()
+        ]
+        return ','.join(edges)
+
+    def _render_edge_in_webgraphviz_format(self, neighbor):
+        return '"{}" -> "{}"'.format(self.id, neighbor.id)
+
     def __str__(self):
         return str(self.id) + ' connected_to: ' + str([neighbor.id for neighbor in self.neighbors])
-
-
-class SpotifyArtist(object):
-
-    __slots__ = ['id', 'name', 'genres']
-
-    def __init__(self, id, name, genres):
-        self.id = id
-        self.name = name
-        self.genres = genres
-
-    def __str__(self):
-        return str(self.id)
-
-# Base.metadata.create_all(engine)
