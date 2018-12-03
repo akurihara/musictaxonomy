@@ -18,7 +18,7 @@ class CreateTaxonomyGraphHandler(BaseAPIHandler):
         session = Session()
         taxonomy_graph = graph_service.build_taxonomy_graph_from_spotify_artists(session, spotify_artists)
 
-        response = taxonomy_graph.render_in_webgraphviz_format()
-        # response = taxonomy_graph.render_as_json()
+        # response = taxonomy_graph.render_in_webgraphviz_format()
+        response = taxonomy_graph.render_as_json()
 
         return self.write(response)

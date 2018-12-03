@@ -1,5 +1,6 @@
 import urllib.parse
 
+from auth import service as auth_service
 from auth.models import SpotifyAuthorization
 from database_utils import Session
 from handlers import BaseAPIHandler
@@ -8,6 +9,7 @@ from settings import (
     SPOTIFY_CLIENT_ID,
 )
 from spotify import client as spotify_client
+from spotify import service as spotify_service
 
 
 class LoginHandler(BaseAPIHandler):
@@ -36,20 +38,31 @@ class OauthCallbackHandler(BaseAPIHandler):
 
     async def get(self):
         authorization_code = self.get_argument('code')
-        parsed_response = await spotify_client.request_access_token(
+        access_token_response = await spotify_client.get_access_token(
             authorization_code
         )
-        access_token = parsed_response['access_token']
-        refresh_token = parsed_response['refresh_token']
+        access_token = access_token_response['access_token']
+        refresh_token = access_token_response['refresh_token']
+
+        spotify_user = await spotify_service.get_spotify_user(access_token)
+
+        session = Session()
+        if not auth_service.does_spotify_user_exist(session, spotify_user):
+            user = auth_service.create_user_from_spotify_user(spotify_user)
+            session.add(user)
+            session.commit()
+        else:
+            user = auth_service.get_user_by_spotify_user(session, spotify_user)
 
         spotify_authorization = SpotifyAuthorization(
+            user_id=user.id,
             access_token=access_token,
             refresh_token=refresh_token,
         )
-        session = Session()
+
         session.add(spotify_authorization)
         session.commit()
 
         self.set_cookie('AccessToken', access_token)
 
-        return self.write({'success': True})
+        return self.write({'access_token': access_token})

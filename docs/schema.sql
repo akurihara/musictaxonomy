@@ -1,8 +1,18 @@
+DROP TABLE IF EXISTS `users`;
+
+CREATE TABLE `users` (
+    `id` INTEGER NOT NULL,
+    `display_name` VARCHAR (255) NOT NULL,
+    `external_source` VARCHAR (255) NOT NULL,
+    `external_id` INTEGER NOT NULL,
+    PRIMARY KEY(`id`)
+);
+
 DROP TABLE IF EXISTS `artist_genres`;
 
 CREATE TABLE `artist_genres` (
     `id` INTEGER NOT NULL,
-    `artist_id`	INTEGER NOT NULL,
+    `artist_id` INTEGER NOT NULL,
     `genre_id` INTEGER NOT NULL,
     PRIMARY KEY(`id`),
     FOREIGN KEY(`artist_id`) REFERENCES `artists`(`id`),
@@ -42,9 +52,11 @@ DROP TABLE IF EXISTS `spotify_authorization`;
 
 CREATE TABLE `spotify_authorization` (
     `id`	INTEGER NOT NULL,
+    `user_id` INTEGER NOT NULL,
     `access_token` VARCHAR (255) NOT NULL,
     `refresh_token` VARCHAR (255) NOT NULL,
-    PRIMARY KEY(`id`)
+    PRIMARY KEY(`id`),
+    FOREIGN KEY(`user_id`) REFERENCES `users`(`id`)
 );
 
 

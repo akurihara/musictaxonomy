@@ -12,12 +12,13 @@ from settings import (
 
 
 __all__ = [
-    'request_access_token',
+    'get_access_token',
+    'get_current_user_profile',
     'get_top_artists_in_time_range',
 ]
 
 
-async def request_access_token(authorization_code: str):
+async def get_access_token(authorization_code: str):
     post_data = {
         'grant_type': 'authorization_code',
         'code': authorization_code,
@@ -35,6 +36,21 @@ async def request_access_token(authorization_code: str):
     return json.loads(response.body)
 
 
+async def get_current_user_profile(access_token: str):
+    headers = {'Authorization': 'Bearer {}'.format(access_token)}
+    url = '{base}/me'.format(base=SPOTIFY_API_BASE_URL)
+
+    response = await AsyncHTTPClient().fetch(
+        url,
+        method='GET',
+        headers=headers,
+    )
+
+    parsed_body = json.loads(response.body)
+
+    return parsed_body
+
+
 async def get_top_artists_in_time_range(access_token: str, time_range: str):
     query_parameters = {
         'time_range': time_range,
@@ -45,6 +61,7 @@ async def get_top_artists_in_time_range(access_token: str, time_range: str):
         base=SPOTIFY_API_BASE_URL,
         query_string=urllib.parse.urlencode(query_parameters),
     )
+
     response = await AsyncHTTPClient().fetch(
         url,
         method='GET',
