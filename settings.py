@@ -40,10 +40,10 @@ settings = {
 
     # template_path: Directory containing template files.
     # Can be further customized by overriding RequestHandler.get_template_path
-    # 'template_path': path(ROOT, "templates"),
+    'template_path': os.path.join(os.path.dirname(__file__), "templates"),
 
     # static_path: Directory from which static files will be served.
-    # 'static_path': path(ROOT, "static"),
+    'static_path': os.path.join(os.path.dirname(__file__), "static"),
 
     # static_url_prefix: Url prefix for static files, defaults to "/static/".
     # 'static_url_prefix': '/static/',

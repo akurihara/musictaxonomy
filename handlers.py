@@ -3,6 +3,12 @@ import json
 from tornado.web import RequestHandler
 
 
+class IndexHandler(RequestHandler):
+
+    def get(self):
+        self.render('index.html')
+
+
 class BaseAPIHandler(RequestHandler):
 
     def write_error(self, status_code, **kwargs):

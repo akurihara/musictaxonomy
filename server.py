@@ -4,14 +4,15 @@ from tornado.web import Application
 
 from auth.handlers import LoginHandler, OauthCallbackHandler
 from graph.handlers import CreateTaxonomyGraphHandler
-from handlers import StatusHandler
+from handlers import IndexHandler, StatusHandler
 from settings import settings
 
 
 def make_app():
     return Application(
         [
-            (r"/", StatusHandler),
+            (r"/", IndexHandler),
+            (r"/status", StatusHandler),
             (r"/taxonomy_graphs", CreateTaxonomyGraphHandler),
             (r"/login", LoginHandler),
             (r"/callback/oauth", OauthCallbackHandler),

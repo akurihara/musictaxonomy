@@ -52,7 +52,7 @@ class OauthCallbackHandler(BaseAPIHandler):
             session.add(user)
             session.commit()
         else:
-            user = auth_service.get_user_by_spotify_user(session, spotify_user)
+            user = auth_service.get_user_from_spotify_user(session, spotify_user)
 
         spotify_authorization = SpotifyAuthorization(
             user_id=user.id,
