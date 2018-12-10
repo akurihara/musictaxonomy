@@ -4,14 +4,20 @@
 
 Create a virtual environment and install dependencies.
 ```
-mkvirtualenv music-taxonomy
-workon music-taxonomy
-pip install -r requirements.txt
+$ pyenv install 3.7.2
+$ pyenv virtualenv 3.7.2 music-taxonomy 
+$ pyenv activate music-taxonomy
+(music-taxonomy) $ pip install --upgrade -r requirements.txt
 ```
 
 ## Running Locally
 
-You can run the server locally from the root directory with:
-```
-python server.py --port=8100
-```
+1. Build the React frontend using:
+   ```
+   $ npm run build
+   ```
+
+2. Run the server locally from the root directory with:
+   ```
+   $ python server.py --port=8100
+   ```
