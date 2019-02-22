@@ -1,0 +1,8 @@
+.python-version
+*.pyc
+*.swp
+*.db
+*.db-journal
+.env
+node_modules
+build
