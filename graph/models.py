@@ -75,22 +75,15 @@ class TaxonomyGraph(object):
     def render_as_json(self):
         return {
             'nodes': [node.render_as_json() for node in self.get_nodes()],
-            'edges': [self._render_edge_as_json(edge) for edge in self.get_edges()],
+            'links': [self._render_edge_as_json(edge) for edge in self.get_edges()],
         }
 
     def _render_edge_as_json(self, edge):
         source_node, destination_node = edge
         return {
             'source': source_node.id,
-            'destination': destination_node.id,
+            'target': destination_node.id,
         }
-
-    def render_in_webgraphviz_format(self):
-        return ','.join([
-            edge
-            for node in self
-            for edge in node.get_edges_in_webgraphviz_format()
-        ])
 
     def __contains__(self, node_id):
         return node_id in self.nodes

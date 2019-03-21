@@ -9,7 +9,7 @@ from spotify import service as spotify_service
 class CreateTaxonomyGraphHandler(BaseAPIHandler):
 
     async def get(self):
-        access_token = self.get_cookie('AccessToken')
+        access_token = self.get_cookie('AccessToken') or self.request.headers.get('AccessToken')
 
         if not access_token:
             raise HTTPError(status_code=401)
@@ -18,7 +18,6 @@ class CreateTaxonomyGraphHandler(BaseAPIHandler):
         session = Session()
         taxonomy_graph = graph_service.build_taxonomy_graph_from_spotify_artists(session, spotify_artists)
 
-        # response = taxonomy_graph.render_in_webgraphviz_format()
         response = taxonomy_graph.render_as_json()
 
         return self.write(response)

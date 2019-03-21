@@ -1,31 +1,50 @@
+import axios from 'axios';
 import React, { Component } from 'react';
 import { Graph } from 'react-d3-graph';
 
-const data = {
-    nodes: [{id: "root"}, {id: "Tennis"}, {id: "pop"}, {id: "art pop"}, {id: "Soccer Mommy"}, {id: "Rose Elinor Dougall"}, {id: "Scavenger Hunt"}, {id: "electropop"}, {id: "Satin Jackets"}, {id: "Unknown"}, {id: "alternative dance"}, {id: "Young the Giant"}, {id: "rock"}, {id: "indie rock"}, {id: "Lord Huron"}, {id: "folk-pop"}, {id: "6LACK"}, {id: "pop rap"}, {id: "Parcels"}, {id: "aussietronica"}, {id: "Castlecomer"}, {id: "indie poptimism"}, {id: "Alvvays"}, {id: "Lights"}, {id: "canadian pop"}, {id: "Snail Mail"}, {id: "Mitski"}, {id: "Tritonal"}, {id: "dance pop"}, {id: "Fickle Friends"}, {id: "gauze pop"}, {id: "PYNKIE"}, {id: "Amerie"}, {id: "hip hop"}, {id: "Fleetwood Mac"}, {id: "album rock"}, {id: "Barrie"}, {id: "The Knocks"}, {id: "edm"}, {id: "Winnetka Bowling League"}, {id: "The Weeknd"}, {id: "Purity Ring"}, {id: "Scorpions"}, {id: "AlunaGeorge"}, {id: "Lake Street Dive"}, {id: "folk"}, {id: "Calvin Harris"}, {id: "Breakbot"}, {id: "Julien Baker"}, {id: "Krewella"}, {id: "Ratboys"}, {id: "chicago indie"}, {id: "Shura"}, {id: "Old Man Canyon"}, {id: "Cherry Glazerr"}, {id: "indie garage rock"}, {id: "Mr Twin Sister"}, {id: "The Chainsmokers"}, {id: "Brooklyn Duo"}, {id: "classify"}, {id: "Nao"}, {id: "r&b"}, {id: "indie r&b"}, {id: "Rainsford"}, {id: "indie electro-pop"}, {id: "M\u00d8"}, {id: "Duke Dumont"}, {id: "deep groove house"}, {id: "Charlie Puth"}, {id: "Local Natives"}, {id: "chamber pop"}, {id: "Embody"}, {id: "tropical pop edm"}, {id: "KREAM"}, {id: "My Buddy Mike"}, {id: "The Rare Occasions"}, {id: "Vacation Manor"}, {id: "indie rockism"}, {id: "Dreamgirl"}, {id: "Disclosure"}, {id: "house"}, {id: "Capital Cities"}, {id: "indie pop"}, {id: "SALES"}, {id: "Courtney Barnett"}, {id: "Natalie Prass"}, {id: "Roosevelt"}, {id: "shimmer pop"}, {id: "Anna Burch"}, {id: "preverb"}, {id: "Tash Sultana"}, {id: "reggae"}, {id: "australian reggae fusion"}, {id: "Drake"}, {id: "canadian hip hop"}, {id: "The Beatles"}, {id: "psychedelic rock"}, {id: "Raveena"}, {id: "Cafun\u00e9"}, {id: "brooklyn indie"}, {id: "TOPS"}, {id: "Okey Dokey"}, {id: "Andy Suzuki & The Method"}, {id: "R3HAB"}, {id: "Smooth Ends"}, {id: "Lev Snowe"}, {id: "manitoba indie"}, {id: "Shift K3Y"}, {id: "Leisure Club"}, {id: "Bob Moses"}, {id: "Sunflower Bean"}, {id: "modern alternative rock"}, {id: "Frankie Cosmos"}, {id: "Jerry Folk"}, {id: "vapor soul"}, {id: "Retro Video Club"}, {id: "scottish indie rock"}, {id: "Syn Cole"}, {id: "Jessie Ware"}, {id: "Two Door Cinema Club"}, {id: "ODESZA"}, {id: "chillwave"}, {id: "WALK THE MOON"}, {id: "Saint Motel"}, {id: "Tame Impala"}, {id: "modern rock"}, {id: "Kendrick Lamar"}, {id: "conscious hip hop"}, {id: "Kanye West"}, {id: "CHVRCHES"}, {id: "Miami Horror"}, {id: "australian electropop"}, {id: "V\u00c9RIT\u00c9"}, {id: "Mayer Hawthorne"}, {id: "funk"}, {id: "Oh Wonder"}, {id: "M83"}, {id: "Real Estate"}, {id: "Lucius"}, {id: "Snakehips"}, {id: "The Killers"}, {id: "G-Eazy"}, {id: "indie pop rap"}, {id: "Kings of Leon"}, {id: "garage rock"}, {id: "J. Cole"}, {id: "Maroon 5"}, {id: "Miguel"}, {id: "Wet"}, {id: "Ariana Grande"}, {id: "RAC"}, {id: "MisterWives"}, {id: "HAIM"}, {id: "Jack and Eliza"}, {id: "indie psych-rock"}, {id: "Solange"}, {id: "Bondax"}, {id: "future garage"}, {id: "Giraffage"}, {id: "POP ETC"}, {id: "Miniature Tigers"}], links: [{source: "root", target: "hip hop"}, {source: "root", target: "reggae"}, {source: "root", target: "Unknown"}, {source: "root", target: "pop"}, {source: "root", target: "edm"}, {source: "root", target: "r&b"}, {source: "root", target: "folk"}, {source: "root", target: "rock"}, {source: "pop", target: "indie pop rap"}, {source: "pop", target: "gauze pop"}, {source: "pop", target: "house"}, {source: "pop", target: "electropop"}, {source: "pop", target: "tropical pop edm"}, {source: "pop", target: "art pop"}, {source: "pop", target: "australian electropop"}, {source: "pop", target: "indie poptimism"}, {source: "pop", target: "Maroon 5"}, {source: "pop", target: "chamber pop"}, {source: "pop", target: "pop rap"}, {source: "pop", target: "folk-pop"}, {source: "pop", target: "canadian pop"}, {source: "pop", target: "dance pop"}, {source: "pop", target: "indie electro-pop"}, {source: "pop", target: "indie pop"}, {source: "pop", target: "shimmer pop"}, {source: "art pop", target: "Alvvays"}, {source: "art pop", target: "Frankie Cosmos"}, {source: "art pop", target: "Natalie Prass"}, {source: "art pop", target: "Soccer Mommy"}, {source: "art pop", target: "Mitski"}, {source: "art pop", target: "Real Estate"}, {source: "art pop", target: "Tennis"}, {source: "art pop", target: "Courtney Barnett"}, {source: "art pop", target: "TOPS"}, {source: "art pop", target: "Julien Baker"}, {source: "art pop", target: "Snail Mail"}, {source: "art pop", target: "Mr Twin Sister"}, {source: "electropop", target: "Purity Ring"}, {source: "electropop", target: "Jessie Ware"}, {source: "electropop", target: "MisterWives"}, {source: "electropop", target: "CHVRCHES"}, {source: "electropop", target: "AlunaGeorge"}, {source: "electropop", target: "RAC"}, {source: "electropop", target: "Scavenger Hunt"}, {source: "electropop", target: "The Chainsmokers"}, {source: "electropop", target: "Oh Wonder"}, {source: "electropop", target: "Shura"}, {source: "Unknown", target: "chicago indie"}, {source: "Unknown", target: "vapor soul"}, {source: "Unknown", target: "chillwave"}, {source: "Unknown", target: "preverb"}, {source: "Unknown", target: "future garage"}, {source: "Unknown", target: "aussietronica"}, {source: "Unknown", target: "manitoba indie"}, {source: "Unknown", target: "classify"}, {source: "Unknown", target: "funk"}, {source: "Unknown", target: "alternative dance"}, {source: "Unknown", target: "brooklyn indie"}, {source: "alternative dance", target: "The Knocks"}, {source: "alternative dance", target: "Satin Jackets"}, {source: "alternative dance", target: "Breakbot"}, {source: "rock", target: "psychedelic rock"}, {source: "rock", target: "indie rockism"}, {source: "rock", target: "indie psych-rock"}, {source: "rock", target: "modern alternative rock"}, {source: "rock", target: "indie rock"}, {source: "rock", target: "garage rock"}, {source: "rock", target: "scottish indie rock"}, {source: "rock", target: "indie garage rock"}, {source: "rock", target: "album rock"}, {source: "rock", target: "modern rock"}, {source: "indie rock", target: "Young the Giant"}, {source: "indie rock", target: "The Killers"}, {source: "folk-pop", target: "Lake Street Dive"}, {source: "folk-pop", target: "Lord Huron"}, {source: "pop rap", target: "6LACK"}, {source: "pop rap", target: "Kanye West"}, {source: "aussietronica", target: "Parcels"}, {source: "indie poptimism", target: "Castlecomer"}, {source: "canadian pop", target: "The Weeknd"}, {source: "canadian pop", target: "Lights"}, {source: "dance pop", target: "Ariana Grande"}, {source: "dance pop", target: "Calvin Harris"}, {source: "dance pop", target: "Tritonal"}, {source: "dance pop", target: "Charlie Puth"}, {source: "dance pop", target: "KREAM"}, {source: "dance pop", target: "HAIM"}, {source: "dance pop", target: "R3HAB"}, {source: "dance pop", target: "Miguel"}, {source: "dance pop", target: "M\u00d8"}, {source: "dance pop", target: "Amerie"}, {source: "dance pop", target: "Solange"}, {source: "dance pop", target: "V\u00c9RIT\u00c9"}, {source: "dance pop", target: "Syn Cole"}, {source: "dance pop", target: "Wet"}, {source: "dance pop", target: "Snakehips"}, {source: "dance pop", target: "Krewella"}, {source: "gauze pop", target: "Fickle Friends"}, {source: "hip hop", target: "canadian hip hop"}, {source: "hip hop", target: "conscious hip hop"}, {source: "album rock", target: "Scorpions"}, {source: "album rock", target: "Fleetwood Mac"}, {source: "edm", target: "deep groove house"}, {source: "chicago indie", target: "Ratboys"}, {source: "indie garage rock", target: "Okey Dokey"}, {source: "indie garage rock", target: "Dreamgirl"}, {source: "indie garage rock", target: "Cherry Glazerr"}, {source: "indie garage rock", target: "SALES"}, {source: "classify", target: "Brooklyn Duo"}, {source: "r&b", target: "indie r&b"}, {source: "indie r&b", target: "Raveena"}, {source: "indie r&b", target: "Nao"}, {source: "indie electro-pop", target: "Rainsford"}, {source: "deep groove house", target: "Shift K3Y"}, {source: "deep groove house", target: "Duke Dumont"}, {source: "chamber pop", target: "Local Natives"}, {source: "chamber pop", target: "Lucius"}, {source: "chamber pop", target: "M83"}, {source: "chamber pop", target: "Miniature Tigers"}, {source: "tropical pop edm", target: "My Buddy Mike"}, {source: "tropical pop edm", target: "Embody"}, {source: "indie rockism", target: "Vacation Manor"}, {source: "house", target: "Disclosure"}, {source: "indie pop", target: "Capital Cities"}, {source: "indie pop", target: "Saint Motel"}, {source: "indie pop", target: "WALK THE MOON"}, {source: "indie pop", target: "POP ETC"}, {source: "indie pop", target: "Two Door Cinema Club"}, {source: "shimmer pop", target: "Roosevelt"}, {source: "preverb", target: "Anna Burch"}, {source: "reggae", target: "australian reggae fusion"}, {source: "australian reggae fusion", target: "Tash Sultana"}, {source: "canadian hip hop", target: "Drake"}, {source: "psychedelic rock", target: "The Beatles"}, {source: "brooklyn indie", target: "Cafun\u00e9"}, {source: "manitoba indie", target: "Lev Snowe"}, {source: "modern alternative rock", target: "Sunflower Bean"}, {source: "vapor soul", target: "Jerry Folk"}, {source: "scottish indie rock", target: "Retro Video Club"}, {source: "chillwave", target: "Giraffage"}, {source: "chillwave", target: "ODESZA"}, {source: "modern rock", target: "Tame Impala"}, {source: "conscious hip hop", target: "J. Cole"}, {source: "conscious hip hop", target: "Kendrick Lamar"}, {source: "australian electropop", target: "Miami Horror"}, {source: "funk", target: "Mayer Hawthorne"}, {source: "indie pop rap", target: "G-Eazy"}, {source: "garage rock", target: "Kings of Leon"}, {source: "indie psych-rock", target: "Jack and Eliza"}, {source: "future garage", target: "Bondax"}]};
-
 const myConfig = {
-    nodeHighlightBehavior: true,
+    nodeHighlightBehavior: false,
     node: {
-        color: 'lightgreen',
-        size: 120,
-        highlightStrokeColor: 'blue'
+        color: '#bc2232',
+        fontSize: 12,
+        highlightStrokeColor: 'blue',
+        labelProperty: 'name',
+        size: 200,
     },
-    link: {
-        highlightColor: 'lightblue'
-    }
+    width: 1440,
+    height: 900
 };
 
 class App extends Component {
 
+  constructor(props, context) {
+    super();
+    this.state = {
+      data: null
+    }
+
+    this.getData()
+  }
+
+  getData() {
+    axios.get('http://localhost:8080/taxonomy_graphs')
+      .then(response => this.setState({data: response.data}));
+  }
+
   render() {
-    return (
-      <Graph
-        id="graph-id"
-        data={data}
-        config={myConfig}
-      />
-    );
+    if (this.state.data === null) {
+      return (
+        <p>Loading...</p>
+      );
+    } else {
+      return (
+        <Graph
+          id="graph-id"
+          data={this.state.data}
+          config={myConfig}
+        />
+      );
+    }
   }
 }
 
