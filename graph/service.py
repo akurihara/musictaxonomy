@@ -67,6 +67,9 @@ def _get_all_main_genres(session):
 def _choose_main_genre_from_spotify_genres(main_genres, spotify_genres):
     main_genre_substring_matches = defaultdict(int)
 
+    if 'pop' in spotify_genres and 'edm' in spotify_genres:
+        return 'Electronic'
+
     for main_genre in main_genres:
         for spotify_genre in spotify_genres:
             if main_genre.spotify_name == spotify_genre:
