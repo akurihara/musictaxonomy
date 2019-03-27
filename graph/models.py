@@ -94,15 +94,15 @@ class TaxonomyGraph(object):
 
     def add_genre_to_subgenre_edge(self, genre_node, subgenre_node):
         self.add_edge(genre_node, subgenre_node)
-        subgenre_node.set_genre(genre_node.id)
+        subgenre_node.set_main_genre(genre_node.id)
 
     def add_genre_to_artist_edge(self, genre_node, artist_node):
         self.add_edge(genre_node, artist_node)
-        artist_node.set_genre(genre_node.id)
+        artist_node.set_main_genre(genre_node.id)
 
     def add_subgenre_to_artist_edge(self, subgenre_node, artist_node):
         self.add_edge(subgenre_node, artist_node)
-        artist_node.set_genre(subgenre_node.genre)
+        artist_node.set_main_genre(subgenre_node.main_genre)
 
     def render_as_json(self):
         return {
@@ -122,6 +122,22 @@ class TaxonomyGraph(object):
 
     def __iter__(self):
         return iter(self.nodes.values())
+
+
+MAIN_GENRE_TO_NODE_COLOR = {
+    'Pop': '#32aae1',
+    'Rock': '#be2332',
+    'Hip Hop': '#283c8c',
+    'Folk': '#283c8c',
+    'Jazz': '#643291',
+    'Country': '#643291',
+    'Electronic': '#ebe16e',
+    'Classical': '#ebe16e',
+    'Blues': '#8c5a32',
+    'Reggae': '#8c5a32',
+    'R&B': '#eb287d',
+    'Unknown': '#c8c8c8',
+}
 
 
 class Node(object):
@@ -157,42 +173,45 @@ class GenreNode(Node):
         return {
             'id': self.id,
             'name': self.name,
+            'color': MAIN_GENRE_TO_NODE_COLOR[self.id],
         }
 
 
 class SubgenreNode(Node):
 
-    __slots__ = ['id', 'genre', 'name', 'neighbors']
+    __slots__ = ['id', 'name', 'main_genre', 'neighbors']
 
     def __init__(self, id, name):
         super().__init__(id)
         self.name = name
-        self.genre = None
+        self.main_genre = None
 
-    def set_genre(self, genre):
-        self.genre = genre
+    def set_main_genre(self, main_genre):
+        self.main_genre = main_genre
 
     def render_as_json(self):
         return {
             'id': self.id,
             'name': self.name,
+            'color': MAIN_GENRE_TO_NODE_COLOR[self.main_genre],
         }
 
 
 class ArtistNode(Node):
 
-    __slots__ = ['id', 'genre', 'name', 'neighbors']
+    __slots__ = ['id', 'name', 'main_genre', 'neighbors']
 
     def __init__(self, id, name):
         super().__init__(id)
         self.name = name
-        self.genre = None
+        self.main_genre = None
 
-    def set_genre(self, genre):
-        self.genre = genre
+    def set_main_genre(self, main_genre):
+        self.main_genre = main_genre
 
     def render_as_json(self):
         return {
             'id': self.id,
             'name': self.name,
+            'color': MAIN_GENRE_TO_NODE_COLOR[self.main_genre],
         }
