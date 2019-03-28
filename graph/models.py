@@ -2,6 +2,21 @@ from sqlalchemy import Column, Integer, ForeignKey, String
 
 from database_utils import Base
 
+MAIN_GENRE_TO_COLOR = {
+    'Pop': '#32aae1',
+    'Rock': '#be2332',
+    'Hip Hop': '#283c8c',
+    'Folk': '#283c8c',
+    'Jazz': '#643291',
+    'Country': '#643291',
+    'Electronic': '#ebe16e',
+    'Classical': '#ebe16e',
+    'Blues': '#8c5a32',
+    'Reggae': '#8c5a32',
+    'R&B': '#eb287d',
+    'Unknown': '#c8c8c8',
+}
+
 
 class Artist(Base):
     __tablename__ = 'artists'
@@ -34,7 +49,7 @@ class TaxonomyGraph(object):
     ROOT_ID = 'root'
 
     def __init__(self):
-        root_node = Node(self.ROOT_ID)
+        root_node = RootNode(self.ROOT_ID)
         self.nodes = {root_node.id: root_node}
 
     def get_root_node(self):
@@ -112,7 +127,10 @@ class TaxonomyGraph(object):
 
     def _render_edge_as_json(self, edge):
         source_node, destination_node = edge
+        main_genre = destination_node.main_genre
+
         return {
+            'color': MAIN_GENRE_TO_COLOR[main_genre],
             'source': source_node.id,
             'target': destination_node.id,
         }
@@ -122,22 +140,6 @@ class TaxonomyGraph(object):
 
     def __iter__(self):
         return iter(self.nodes.values())
-
-
-MAIN_GENRE_TO_NODE_COLOR = {
-    'Pop': '#32aae1',
-    'Rock': '#be2332',
-    'Hip Hop': '#283c8c',
-    'Folk': '#283c8c',
-    'Jazz': '#643291',
-    'Country': '#643291',
-    'Electronic': '#ebe16e',
-    'Classical': '#ebe16e',
-    'Blues': '#8c5a32',
-    'Reggae': '#8c5a32',
-    'R&B': '#eb287d',
-    'Unknown': '#c8c8c8',
-}
 
 
 class Node(object):
@@ -161,7 +163,7 @@ class Node(object):
         return str(self.id) + ' connected_to: ' + str([neighbor.id for neighbor in self.neighbors])
 
 
-class GenreNode(Node):
+class RootNode(Node):
 
     __slots__ = ['id', 'name', 'neighbors']
 
@@ -169,37 +171,85 @@ class GenreNode(Node):
         super().__init__(id)
         self.name = id
 
+    @property
+    def number_of_artists_in_graph(self):
+        return sum([
+            genre.number_of_artists_in_genre for genre
+            in self.neighbors
+        ])
+
     def render_as_json(self):
+        size = 100 + (25 * self.number_of_artists_in_graph)
+
         return {
             'id': self.id,
+            'color': 'white',
+            'fontSize': 20.0,
             'name': self.name,
-            'color': MAIN_GENRE_TO_NODE_COLOR[self.id],
+            'strokeColor': '#000000',
+            'size': size,
+        }
+
+
+class GenreNode(Node):
+
+    __slots__ = ['id', 'main_genre', 'name', 'neighbors']
+
+    def __init__(self, id):
+        super().__init__(id)
+        self.name = id
+        self.main_genre = id
+
+    @property
+    def number_of_artists_in_genre(self):
+        return sum([
+            subgenre.number_of_artists_in_subgenre for subgenre
+            in self.neighbors if isinstance(subgenre, SubgenreNode)
+        ])
+
+    def render_as_json(self):
+        size = 100 + (25 * self.number_of_artists_in_genre)
+
+        return {
+            'fontSize': 18,
+            'id': self.id,
+            'name': self.name,
+            'size': size,
+            'strokeColor': MAIN_GENRE_TO_COLOR[self.id],
         }
 
 
 class SubgenreNode(Node):
 
-    __slots__ = ['id', 'name', 'main_genre', 'neighbors']
+    __slots__ = ['id', 'main_genre', 'name', 'neighbors']
 
     def __init__(self, id, name):
         super().__init__(id)
         self.name = name
         self.main_genre = None
 
+    @property
+    def number_of_artists_in_subgenre(self):
+        return len(self.neighbors)
+
     def set_main_genre(self, main_genre):
         self.main_genre = main_genre
 
     def render_as_json(self):
+        size = 100 + (25 * self.number_of_artists_in_subgenre)
+
         return {
+            'fontSize': 14,
             'id': self.id,
             'name': self.name,
-            'color': MAIN_GENRE_TO_NODE_COLOR[self.main_genre],
+            'size': size,
+            'strokeColor': MAIN_GENRE_TO_COLOR[self.main_genre],
         }
 
 
 class ArtistNode(Node):
 
-    __slots__ = ['id', 'name', 'main_genre', 'neighbors']
+    __slots__ = ['id', 'main_genre', 'name', 'neighbors']
 
     def __init__(self, id, name):
         super().__init__(id)
@@ -211,7 +261,9 @@ class ArtistNode(Node):
 
     def render_as_json(self):
         return {
+            'fontSize': 12,
             'id': self.id,
             'name': self.name,
-            'color': MAIN_GENRE_TO_NODE_COLOR[self.main_genre],
+            'size': 100,
+            'strokeColor': MAIN_GENRE_TO_COLOR[self.main_genre],
         }

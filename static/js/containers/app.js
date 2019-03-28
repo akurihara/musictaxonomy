@@ -5,14 +5,12 @@ import { Graph } from 'react-d3-graph';
 const myConfig = {
     nodeHighlightBehavior: false,
     node: {
-        color: '#bc2232',
-        fontSize: 12,
-        highlightStrokeColor: 'blue',
+        color: 'white',
         labelProperty: 'name',
-        size: 200,
+        strokeWidth: 3
     },
-    width: 1440,
-    height: 900
+    width: window.innerWidth,
+    height: window.innerHeight
 };
 
 class App extends Component {
