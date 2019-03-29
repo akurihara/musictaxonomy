@@ -17,8 +17,7 @@ class LoginHandler(BaseAPIHandler):
     def get(self):
         access_token = self.get_cookie('AccessToken')
         if access_token:
-            self.write('Already logged in')
-            return
+            return self.redirect('/', permanent=False)
 
         query_parameters = {
             'client_id': SPOTIFY_CLIENT_ID,
@@ -65,4 +64,4 @@ class OauthCallbackHandler(BaseAPIHandler):
 
         self.set_cookie('AccessToken', access_token)
 
-        return self.write({'access_token': access_token})
+        return self.redirect('/', permanent=False)
