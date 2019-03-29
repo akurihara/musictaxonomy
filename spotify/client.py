@@ -3,12 +3,8 @@ import json
 from tornado.httpclient import AsyncHTTPClient
 import urllib.parse
 
-from settings import (
-    SPOTIFY_API_BASE_URL,
-    SPOTIFY_TOKEN_URL,
-    SPOTIFY_CLIENT_ID,
-    SPOTIFY_CLIENT_SECRET,
-)
+from settings import SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET
+from spotify import constants as spotify_constants
 
 
 __all__ = [
@@ -28,7 +24,7 @@ async def get_access_token(authorization_code: str):
     }
     body = urllib.parse.urlencode(post_data)
     response = await AsyncHTTPClient().fetch(
-        SPOTIFY_TOKEN_URL,
+        spotify_constants.SPOTIFY_TOKEN_URL,
         method='POST',
         body=body
     )
@@ -38,7 +34,7 @@ async def get_access_token(authorization_code: str):
 
 async def get_current_user_profile(access_token: str):
     headers = {'Authorization': 'Bearer {}'.format(access_token)}
-    url = '{base}/me'.format(base=SPOTIFY_API_BASE_URL)
+    url = '{base}/me'.format(base=spotify_constants.SPOTIFY_API_BASE_URL)
 
     response = await AsyncHTTPClient().fetch(
         url,
@@ -58,7 +54,7 @@ async def get_top_artists_in_time_range(access_token: str, time_range: str):
     }
     headers = {'Authorization': 'Bearer {}'.format(access_token)}
     url = '{base}/me/top/artists?{query_string}'.format(
-        base=SPOTIFY_API_BASE_URL,
+        base=spotify_constants.SPOTIFY_API_BASE_URL,
         query_string=urllib.parse.urlencode(query_parameters),
     )
 

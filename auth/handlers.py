@@ -4,10 +4,8 @@ from auth import service as auth_service
 from auth.models import SpotifyAuthorization
 from database_utils import Session
 from handlers import BaseAPIHandler
-from settings import (
-    SPOTIFY_AUTHORIZE_URL,
-    SPOTIFY_CLIENT_ID,
-)
+from settings import SPOTIFY_CLIENT_ID
+from spotify import constants as spotify_constants
 from spotify import client as spotify_client
 from spotify import service as spotify_service
 
@@ -26,7 +24,7 @@ class LoginHandler(BaseAPIHandler):
             'scope': 'user-top-read',
         }
         spotify_authorize_url = '{base}?{query_string}'.format(
-            base=SPOTIFY_AUTHORIZE_URL,
+            base=spotify_constants.SPOTIFY_AUTHORIZE_URL,
             query_string=urllib.parse.urlencode(query_parameters),
         )
 
