@@ -8,8 +8,8 @@ __all__ = [
 ]
 
 
-def build_taxonomy_graph_from_spotify_artists(session, spotify_artists):
-    taxonomy_graph = TaxonomyGraph()
+def build_taxonomy_graph(session, spotify_user, spotify_artists):
+    taxonomy_graph = TaxonomyGraph(spotify_user.display_name)
     main_genres = _get_all_main_genres(session)
     spotify_genre_popularity_map = _get_spotify_genre_popularity_map(spotify_artists)
 

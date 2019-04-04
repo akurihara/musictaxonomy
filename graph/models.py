@@ -48,8 +48,8 @@ class TaxonomyGraph(object):
 
     ROOT_ID = 'root'
 
-    def __init__(self):
-        root_node = RootNode(self.ROOT_ID)
+    def __init__(self, user_display_name):
+        root_node = RootNode(self.ROOT_ID, user_display_name)
         self.nodes = {root_node.id: root_node}
 
     def get_root_node(self):
@@ -167,9 +167,9 @@ class RootNode(Node):
 
     __slots__ = ['id', 'name', 'neighbors']
 
-    def __init__(self, id):
+    def __init__(self, id, name):
         super().__init__(id)
-        self.name = id
+        self.name = name
 
     @property
     def number_of_artists_in_graph(self):
