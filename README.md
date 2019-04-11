@@ -1,4 +1,8 @@
-# music-taxonomy
+# musictaxonomy
+
+Music Taxonomy lets you express your musical taste in a way that's visual, organized, and delightful!
+
+It was inspired an [infographic](https://turnerkarl.wordpress.com/2012/10/11/finished-music-infographic) created by artist Karl Turner.
 
 ## Set Up
 
