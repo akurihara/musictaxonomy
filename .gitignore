@@ -3,6 +3,8 @@
 *.swp
 *.db
 *.db-journal
+.ctags
 .env
 node_modules
 build
+tags
