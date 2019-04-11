@@ -17,6 +17,11 @@ $ pyenv activate music-taxonomy
    $ npm run build
    ```
 
+2. Set environmental variables
+
+   - `SPOTIFY_CLIENT_ID` - The client ID of your Spotify application. This can be found at the Spotify [developer dashboard](https://developer.spotify.com/dashboard/applications).
+   - `SPOTIFY_CLIENT_SECRET` - The client secret of your Spotify application.
+
 2. Run the server locally from the root directory with:
    ```
    $ python server.py --port=8100
