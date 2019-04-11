@@ -13,7 +13,7 @@ from settings import SPOTIFY_CLIENT_ID
 class LoginHandler(BaseAPIHandler):
 
     def get(self):
-        access_token = self.get_cookie('AccessToken')
+        access_token = self.get_secure_cookie('AccessToken')
         if access_token:
             return self.redirect('/', permanent=False)
 
@@ -60,6 +60,6 @@ class OauthCallbackHandler(BaseAPIHandler):
         session.add(spotify_authorization)
         session.commit()
 
-        self.set_cookie('AccessToken', access_token)
+        self.set_secure_cookie('AccessToken', access_token)
 
         return self.redirect('/', permanent=False)
