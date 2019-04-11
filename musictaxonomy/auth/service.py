@@ -1,4 +1,4 @@
-from auth.models import User
+from musictaxonomy.auth.models import User
 
 
 def does_spotify_user_exist(session, spotify_user):

@@ -1,9 +1,9 @@
 from tornado.web import HTTPError
 
-from database_utils import Session
-from graph import service as graph_service
-from handlers import BaseAPIHandler
-from spotify import service as spotify_service
+from musictaxonomy.database_utils import Session
+from musictaxonomy.graph import service as graph_service
+from musictaxonomy.handlers import BaseAPIHandler
+from musictaxonomy.spotify import service as spotify_service
 
 
 class CreateTaxonomyGraphHandler(BaseAPIHandler):

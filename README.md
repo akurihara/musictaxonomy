@@ -21,3 +21,10 @@ $ pyenv activate music-taxonomy
    ```
    $ python server.py --port=8100
    ```
+
+## Running Tests
+
+Run tests with:
+```
+nosetests test
+```

@@ -1,6 +1,6 @@
 from collections import defaultdict
 
-from graph.models import Genre, TaxonomyGraph
+from musictaxonomy.graph.models import Genre, TaxonomyGraph
 
 
 __all__ = [

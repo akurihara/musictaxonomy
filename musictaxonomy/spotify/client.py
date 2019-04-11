@@ -3,8 +3,8 @@ import json
 from tornado.httpclient import AsyncHTTPClient
 import urllib.parse
 
+from musictaxonomy.spotify import constants as spotify_constants
 from settings import SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET
-from spotify import constants as spotify_constants
 
 
 __all__ = [

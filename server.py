@@ -2,9 +2,9 @@ from tornado.ioloop import IOLoop
 from tornado.options import options
 from tornado.web import Application
 
-from auth.handlers import LoginHandler, OauthCallbackHandler
-from graph.handlers import CreateTaxonomyGraphHandler
-from handlers import IndexHandler, StatusHandler
+from musictaxonomy.auth.handlers import LoginHandler, OauthCallbackHandler
+from musictaxonomy.graph.handlers import CreateTaxonomyGraphHandler
+from musictaxonomy.handlers import IndexHandler, StatusHandler
 from settings import settings
 
 

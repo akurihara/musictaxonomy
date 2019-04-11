@@ -34,7 +34,6 @@ class StatusHandler(BaseAPIHandler):
         response = {
             'message': 'ok',
             'status': 200,
-            'version': '1.0.0',
         }
 
         return self.write(response)

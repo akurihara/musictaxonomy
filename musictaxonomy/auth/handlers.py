@@ -1,13 +1,13 @@
 import urllib.parse
 
-from auth import service as auth_service
-from auth.models import SpotifyAuthorization
-from database_utils import Session
-from handlers import BaseAPIHandler
+from musictaxonomy.auth import service as auth_service
+from musictaxonomy.auth.models import SpotifyAuthorization
+from musictaxonomy.database_utils import Session
+from musictaxonomy.handlers import BaseAPIHandler
+from musictaxonomy.spotify import constants as spotify_constants
+from musictaxonomy.spotify import client as spotify_client
+from musictaxonomy.spotify import service as spotify_service
 from settings import SPOTIFY_CLIENT_ID
-from spotify import constants as spotify_constants
-from spotify import client as spotify_client
-from spotify import service as spotify_service
 
 
 class LoginHandler(BaseAPIHandler):

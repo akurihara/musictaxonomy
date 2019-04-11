@@ -1,5 +1,5 @@
-from spotify import client as spotify_client
-from spotify.models import SpotifyArtist, SpotifyUser
+from musictaxonomy.spotify import client as spotify_client
+from musictaxonomy.spotify.models import SpotifyArtist, SpotifyUser
 
 
 __all__ = [
