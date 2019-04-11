@@ -1,4 +1,16 @@
+from tornado.httpclient import HTTPClientError
+
 from musictaxonomy.auth.models import User
+from musictaxonomy.spotify import client as spotify_client
+
+
+async def is_access_token_valid(access_token):
+    try:
+        await spotify_client.get_current_user_profile(access_token)
+    except HTTPClientError as e:
+        return False
+
+    return True
 
 
 def does_spotify_user_exist(session, spotify_user):

@@ -12,10 +12,12 @@ from settings import SPOTIFY_CLIENT_ID
 
 class LoginHandler(BaseAPIHandler):
 
-    def get(self):
+    async def get(self):
         access_token = self.get_secure_cookie('AccessToken')
         if access_token:
-            return self.redirect('/', permanent=False)
+            is_access_token_valid = await auth_service.is_access_token_valid(access_token.decode('ascii'))
+            if is_access_token_valid:
+                return self.redirect('/', permanent=False)
 
         query_parameters = {
             'client_id': SPOTIFY_CLIENT_ID,
