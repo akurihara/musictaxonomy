@@ -2,7 +2,7 @@ import json
 
 from tornado.testing import AsyncHTTPTestCase
 
-from musictaxonomy import server
+import server
 
 
 class StatusHandlerTest(AsyncHTTPTestCase):
