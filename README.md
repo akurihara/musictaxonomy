@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/akurihara/musictaxonomy.svg?branch=master)](https://travis-ci.org/klugjo/hexo-autolinker)
+
 # musictaxonomy
 
 Music Taxonomy lets you express your musical taste in a way that's visual, organized, and delightful!
