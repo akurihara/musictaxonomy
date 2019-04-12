@@ -6,5 +6,4 @@
 .ctags
 .env
 node_modules
-build
 tags
