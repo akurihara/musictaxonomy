@@ -4,7 +4,7 @@ from tornado.httpclient import AsyncHTTPClient
 import urllib.parse
 
 from musictaxonomy.spotify import constants as spotify_constants
-from settings import SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET
+from settings import HOST, SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET
 
 
 __all__ = [
@@ -18,7 +18,7 @@ async def get_access_token(authorization_code: str):
     post_data = {
         'grant_type': 'authorization_code',
         'code': authorization_code,
-        'redirect_uri': 'http://localhost:8080/callback/oauth',
+        'redirect_uri': '{}/callback/oauth'.format(HOST),
         'client_id': SPOTIFY_CLIENT_ID,
         'client_secret': SPOTIFY_CLIENT_SECRET,
     }

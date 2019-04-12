@@ -7,7 +7,7 @@ from musictaxonomy.handlers import BaseAPIHandler
 from musictaxonomy.spotify import constants as spotify_constants
 from musictaxonomy.spotify import client as spotify_client
 from musictaxonomy.spotify import service as spotify_service
-from settings import SPOTIFY_CLIENT_ID
+from settings import HOST, SPOTIFY_CLIENT_ID
 
 
 class LoginHandler(BaseAPIHandler):
@@ -22,7 +22,7 @@ class LoginHandler(BaseAPIHandler):
         query_parameters = {
             'client_id': SPOTIFY_CLIENT_ID,
             'response_type': 'code',
-            'redirect_uri': 'http://localhost:8080/callback/oauth',
+            'redirect_uri': '{}/callback/oauth'.format(HOST),
             'scope': 'user-top-read',
         }
         spotify_authorize_url = '{base}?{query_string}'.format(

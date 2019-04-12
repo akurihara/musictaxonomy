@@ -25,7 +25,7 @@ class App extends Component {
   }
 
   getData() {
-    axios.get('http://localhost:8080/taxonomy_graphs')
+    axios.get('/taxonomy_graphs')
       .then(response => this.setState({data: response.data}));
   }
 
