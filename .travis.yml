@@ -5,12 +5,18 @@ language: python
 python:
   - 3.7
 
+services: postgresql
+
 before_install:
   - export PYTHONPATH=$HOME/builds/akurihara/musictaxonomy
   - export PIP_USE_MIRRORS=true
+  - export DATABASE_URL=postgres://postgres@127.0.0.1:5432/testing_db
 
 install:
   - pip install -r requirements.txt
+
+before_script:
+  - psql -c "CREATE DATABASE travisci;" -U postgres
 
 script:
   - nosetests test
