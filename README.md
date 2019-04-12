@@ -6,19 +6,12 @@ It was inspired an [infographic](https://turnerkarl.wordpress.com/2012/10/11/fin
 
 ## Set Up
 
-Create a virtual environment and install dependencies.
-```
-$ pyenv install 3.7.2
-$ pyenv virtualenv 3.7.2 music-taxonomy 
-$ pyenv activate music-taxonomy
-(music-taxonomy) $ pip install --upgrade -r requirements.txt
-```
-
-## Running Locally
-
-1. Build the React frontend using:
+1. Create a virtual environment and install dependencies.
    ```
-   $ npm run build
+   $ pyenv install 3.7.2
+   $ pyenv virtualenv 3.7.2 music-taxonomy
+   $ pyenv activate music-taxonomy
+   (music-taxonomy) $ pip install --upgrade -r requirements.txt
    ```
 
 2. Set environmental variables
@@ -26,10 +19,19 @@ $ pyenv activate music-taxonomy
    - `SPOTIFY_CLIENT_ID` - The client ID of your Spotify application. This can be found at the Spotify [developer dashboard](https://developer.spotify.com/dashboard/applications).
    - `SPOTIFY_CLIENT_SECRET` - The client secret of your Spotify application.
 
-2. Run the server locally from the root directory with:
+3. Build the React frontend using:
    ```
-   $ python server.py --port=8100
+   $ npm install
+   $ npm run build
    ```
+
+## Running Locally
+
+Run the server locally from the root directory with:
+```
+$ python server.py --port=8100
+```
+Then, nagivate to `localhost:8100` in your browser.
 
 ## Running Tests
 
