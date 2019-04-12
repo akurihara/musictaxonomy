@@ -4,7 +4,8 @@
   "description": "Visualizer for your top artists and genres",
   "main": "index.js",
   "scripts": {
-    "build": "grunt browserify"
+    "build": "grunt browserify",
+    "heroku-postbuild": "npm run build"
   },
   "author": "Alex Kurihara",
   "license": "MIT",
