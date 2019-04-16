@@ -20,6 +20,8 @@ It was inspired an [infographic](https://turnerkarl.wordpress.com/2012/10/11/fin
 
    - `SPOTIFY_CLIENT_ID` - The client ID of your Spotify application. This can be found at the Spotify [developer dashboard](https://developer.spotify.com/dashboard/applications).
    - `SPOTIFY_CLIENT_SECRET` - The client secret of your Spotify application.
+   - `PORT` - The port number for the server to run on, e.g. 8080.
+   - `HOST` - The hostname of the server in the current environment. When run locally, this will be `http://localhost:{PORT}`.
 
 3. Build the React frontend using:
    ```
