@@ -9,11 +9,7 @@ from musictaxonomy.spotify import service as spotify_service
 class CreateTaxonomyGraphHandler(BaseAPIHandler):
 
     async def get(self):
-        access_token = self.get_secure_cookie('AccessToken')
-        if access_token:
-            access_token = access_token.decode('ascii')
-        else:
-            access_token = self.request.headers.get('AccessToken')
+        access_token = self.get_access_token()
 
         if not access_token:
             raise HTTPError(status_code=401)
