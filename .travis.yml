@@ -11,6 +11,10 @@ before_install:
   - export PYTHONPATH=$HOME/builds/akurihara/musictaxonomy
   - export PIP_USE_MIRRORS=true
   - export DATABASE_URL=postgres://postgres@127.0.0.1:5432/testing_db
+  - export SPOTIFY_CLIENT_ID="test_spotify_client_id"
+  - export SPOTIFY_CLIENT_SECRET="test_spotify_client_secret"
+  - export HOST="http://localhost:8080"
+  - export PORT=8080
 
 install:
   - pip install -r requirements.txt

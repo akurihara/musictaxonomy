@@ -11,7 +11,10 @@ class StatusHandlerTest(AsyncHTTPTestCase):
         return server.make_app()
 
     def test_get(self):
-        response = self.fetch('/status')
+        response = self.fetch(
+            path='/status',
+            method='GET',
+        )
         response_body = json.loads(response.body)
 
         expected_response = {
