@@ -4,7 +4,7 @@ CREATE TABLE users (
     id SERIAL,
     display_name VARCHAR (255) NOT NULL,
     external_source VARCHAR (255) NOT NULL,
-    external_id INTEGER NOT NULL,
+    external_id VARCHAR (255) NOT NULL,
     PRIMARY KEY(id)
 );
 
