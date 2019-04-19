@@ -13,6 +13,4 @@ Base = declarative_base()
 Session = sessionmaker()
 Session.configure(bind=engine)
 
-
-def create_tables():
-    Base.metadata.create_all(engine)
+# Base.metadata.create_all(engine)
