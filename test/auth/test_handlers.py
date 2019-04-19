@@ -39,6 +39,15 @@ class LoginHandlerTest(AsyncHTTPTestCase):
 
 class OauthCallbackHandlerTest(AsyncHTTPTestCase):
 
+    def setUp(self):
+        super().setUp()
+        self.session = Session()
+
+    def tearDown(self):
+        super().tearDown()
+        self.session.query(User).delete()
+        self.session.commit()
+
     def get_app(self):
         return server.make_app()
 
@@ -64,8 +73,7 @@ class OauthCallbackHandlerTest(AsyncHTTPTestCase):
         self.assertEqual(parsed_url.path, '/')
 
         # Verify a new user was created in the database.
-        session = Session()
-        user = session.query(User).filter_by(external_id=1220628328).first()
+        user = self.session.query(User).filter_by(external_id=1220628328).first()
         self.assertIsNotNone(user)
         self.assertEqual(user.display_name, 'Alex Kurihara')
         self.assertEqual(user.external_source, 'spotify')
