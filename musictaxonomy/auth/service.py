@@ -7,7 +7,7 @@ from musictaxonomy.spotify import client as spotify_client
 async def is_access_token_valid(access_token):
     try:
         await spotify_client.get_current_user_profile(access_token)
-    except HTTPClientError as e:
+    except HTTPClientError:
         return False
 
     return True

@@ -1,9 +1,11 @@
-import json
-from urllib.parse import parse_qsl, urlparse
-
+from urllib import parse
 from tornado.testing import AsyncHTTPTestCase
 
+import vcr
+
 import server
+from musictaxonomy.auth.models import User
+from musictaxonomy.database_utils import Session
 from settings import HOST, SPOTIFY_CLIENT_ID
 
 
@@ -19,11 +21,16 @@ class LoginHandlerTest(AsyncHTTPTestCase):
             follow_redirects=False,
         )
 
+        # Verify the response code.
         self.assertEqual(response.code, 302)
-        parsed_url = urlparse(response.headers['Location'])
+
+        # Verify the redirect host and path.
+        parsed_url = parse.urlparse(response.headers['Location'])
         self.assertEqual(parsed_url.netloc, 'accounts.spotify.com')
         self.assertEqual(parsed_url.path, '/authorize')
-        parsed_query_string = dict(parse_qsl(parsed_url.query))
+
+        # Verify the redirect query parameters.
+        parsed_query_string = dict(parse.parse_qsl(parsed_url.query))
         self.assertEqual(parsed_query_string['response_type'], 'code')
         self.assertEqual(parsed_query_string['scope'], 'user-top-read')
         self.assertEqual(parsed_query_string['client_id'], SPOTIFY_CLIENT_ID)
@@ -35,5 +42,30 @@ class OauthCallbackHandlerTest(AsyncHTTPTestCase):
     def get_app(self):
         return server.make_app()
 
-    def test_get(self):
-        pass
+    @vcr.use_cassette('test/auth/cassettes/test_get_with_new_user.yml', ignore_localhost=True)
+    def test_get_with_new_user(self):
+        query_parameters = {
+            'code': 'AQAYIHUkyhPGAtmQ'
+        }
+        url = '{}?{}'.format('/callback/oauth', parse.urlencode(query_parameters))
+
+        response = self.fetch(
+            path=url,
+            method='GET',
+            follow_redirects=False,
+        )
+
+        # Verify the response code.
+        self.assertEqual(response.code, 302)
+
+        # Verify the redirect host and path.
+        parsed_url = parse.urlparse(response.headers['Location'])
+        self.assertEqual(parsed_url.netloc, '')
+        self.assertEqual(parsed_url.path, '/')
+
+        # Verify a new user was created in the database.
+        session = Session()
+        user = session.query(User).filter_by(external_id=1220628328).first()
+        self.assertIsNotNone(user)
+        self.assertEqual(user.display_name, 'Alex Kurihara')
+        self.assertEqual(user.external_source, 'spotify')
