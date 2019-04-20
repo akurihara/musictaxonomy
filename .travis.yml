@@ -21,6 +21,7 @@ install:
 
 before_script:
   - psql -c "CREATE DATABASE testing_db;" -U postgres
+  - python initialize_database.py
 
 script:
   - nosetests test
