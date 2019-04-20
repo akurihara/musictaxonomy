@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String
 
-from musictaxonomy.database_utils import Base
+from musictaxonomy.database import Base
 
 
 class User(Base):

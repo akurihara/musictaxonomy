@@ -5,7 +5,7 @@ import vcr
 
 import server
 from musictaxonomy.auth.models import User
-from musictaxonomy.database_utils import Session
+from musictaxonomy.database import Session
 from settings import HOST, SPOTIFY_CLIENT_ID
 
 

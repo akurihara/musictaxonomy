@@ -1,6 +1,6 @@
 from tornado.web import HTTPError
 
-from musictaxonomy.database_utils import Session
+from musictaxonomy.database import Session
 from musictaxonomy.graph import service as graph_service
 from musictaxonomy.handlers import BaseAPIHandler
 from musictaxonomy.spotify import service as spotify_service

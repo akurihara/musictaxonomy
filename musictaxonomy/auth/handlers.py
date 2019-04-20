@@ -2,7 +2,7 @@ import urllib.parse
 
 from musictaxonomy.auth import service as auth_service
 from musictaxonomy.auth.models import SpotifyAuthorization
-from musictaxonomy.database_utils import Session
+from musictaxonomy.database import Session
 from musictaxonomy.handlers import BaseAPIHandler
 from musictaxonomy.spotify import constants as spotify_constants
 from musictaxonomy.spotify import client as spotify_client
