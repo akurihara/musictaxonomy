@@ -14,10 +14,11 @@ class LoginHandler(BaseAPIHandler):
 
     async def get(self):
         access_token = self.get_access_token()
-        if access_token:
-            is_access_token_valid = await auth_service.is_access_token_valid(access_token)
-            if is_access_token_valid:
-                return self.redirect('/', permanent=False)
+        is_access_token_valid = await auth_service.is_access_token_valid(access_token)
+
+        # User is already logged in.
+        if is_access_token_valid:
+            return self.redirect('/', permanent=False)
 
         query_parameters = {
             'client_id': SPOTIFY_CLIENT_ID,

@@ -39,13 +39,11 @@ class IndexHandler(BaseAPIHandler):
 
     async def get(self):
         access_token = self.get_access_token()
-        if access_token:
-            is_access_token_valid = await auth_service.is_access_token_valid(access_token)
-            if not is_access_token_valid:
-                return self.redirect('/login', permanent=False)
-        else:
-            return self.redirect('/login', permanent=False)
+        is_access_token_valid = await auth_service.is_access_token_valid(access_token)
 
+        # User is not logged in, redirect to login endpoint.
+        if not is_access_token_valid:
+            return self.redirect('/login', permanent=False)
 
         self.render('index.html')
 
