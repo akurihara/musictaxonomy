@@ -48,17 +48,6 @@ CREATE TABLE subgenres (
     FOREIGN KEY(genre_id) REFERENCES genres(id)
 );
 
-DROP TABLE IF EXISTS spotify_authorization;
-
-CREATE TABLE spotify_authorization (
-    id SERIAL,
-    user_id INTEGER NOT NULL,
-    access_token VARCHAR (255) NOT NULL,
-    refresh_token VARCHAR (255) NOT NULL,
-    PRIMARY KEY(id),
-    FOREIGN KEY(user_id) REFERENCES users(id)
-);
-
 
 INSERT INTO genres (id,spotify_name,display_name) VALUES ('1','pop','Pop');
 INSERT INTO genres (id,spotify_name,display_name) VALUES ('2','rock','Rock');

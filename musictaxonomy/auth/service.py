@@ -6,6 +6,13 @@ from musictaxonomy.spotify import client as spotify_client
 from musictaxonomy.spotify import service as spotify_service
 
 
+__all__ = [
+    'get_spotify_access_token',
+    'is_access_token_valid',
+    'create_new_user_if_necessary',
+]
+
+
 async def get_spotify_access_token(authorization_code):
     access_token_response = await spotify_client.get_access_token(
         authorization_code

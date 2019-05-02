@@ -4,7 +4,7 @@ from musictaxonomy.graph.models import Genre, TaxonomyGraph
 
 
 __all__ = [
-    'build_taxonomy_graph_from_spotify_artists',
+    'build_taxonomy_graph',
 ]
 
 
@@ -109,7 +109,7 @@ def _choose_main_genre_name_from_spotify_genres(main_genres, spotify_genres):
         if 'indie' in spotify_genre:
             return 'Rock'
         if 'house' in spotify_genre:
-           return 'Electronic'
+            return 'Electronic'
         if 'funk' in spotify_genre:
             return 'R&B'
         if 'soul' in spotify_genre:
