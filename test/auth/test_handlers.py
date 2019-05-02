@@ -6,7 +6,7 @@ import vcr
 import server
 from musictaxonomy.auth.models import User
 from musictaxonomy.database import Session
-from settings import HOST, SPOTIFY_CLIENT_ID
+from settings import SPOTIFY_CLIENT_ID
 
 
 class LoginHandlerTest(AsyncHTTPTestCase):
@@ -34,7 +34,7 @@ class LoginHandlerTest(AsyncHTTPTestCase):
         self.assertEqual(parsed_query_string['response_type'], 'code')
         self.assertEqual(parsed_query_string['scope'], 'user-top-read')
         self.assertEqual(parsed_query_string['client_id'], SPOTIFY_CLIENT_ID)
-        self.assertEqual(parsed_query_string['redirect_uri'], '{}/callback/oauth'.format(HOST))
+        self.assertTrue(parsed_query_string['redirect_uri'].endswith('/callback/oauth'))
 
 
 class OauthCallbackHandlerTest(AsyncHTTPTestCase):

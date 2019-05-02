@@ -16,12 +16,15 @@ It was inspired an [infographic](https://turnerkarl.wordpress.com/2012/10/11/fin
    (music-taxonomy) $ pip install --upgrade -r requirements.txt
    ```
 
-2. Set environmental variables
+2. Set up environmental variables
+   ```
+   touch .env
+   ```
 
+   Add the following variables to the .env file:
    - `SPOTIFY_CLIENT_ID` - The client ID of your Spotify application. This can be found at the Spotify [developer dashboard](https://developer.spotify.com/dashboard/applications).
    - `SPOTIFY_CLIENT_SECRET` - The client secret of your Spotify application.
-   - `PORT` - The port number for the server to run on, e.g. 8080.
-   - `HOST` - The hostname of the server in the current environment. When run locally, this will be `http://localhost:{PORT}`.
+   - `DATABASE_URL` - Database URL specifying which database to connect to (e.g. `postgres://postgres@127.0.0.1:5432/testing_db`).
 
 3. Build the React frontend using:
    ```
@@ -33,9 +36,9 @@ It was inspired an [infographic](https://turnerkarl.wordpress.com/2012/10/11/fin
 
 Run the server locally from the root directory with:
 ```
-$ python server.py --port=8100
+$ python server.py --port=8080
 ```
-Then, nagivate to `localhost:8100` in your browser.
+Then, nagivate to `localhost:8080` in your browser.
 
 ## Running Tests
 

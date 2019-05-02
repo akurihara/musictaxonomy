@@ -1,6 +1,7 @@
 import os
 
 from tornado.ioloop import IOLoop
+from tornado.options import options
 from tornado.web import Application
 
 from musictaxonomy.auth.handlers import LoginHandler, OauthCallbackHandler
@@ -23,7 +24,10 @@ def make_app():
 
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 8080))
+    options.parse_command_line()
+
+    # Prefer command line option, fallback to environment variable
+    port = options.port if options.port else int(os.environ.get('PORT', 8080))
     app = make_app()
     app.listen(port)
     print('Starting server on http://127.0.0.1:{}'.format(port))

@@ -13,15 +13,16 @@ __all__ = [
 ]
 
 
-async def get_spotify_access_token(authorization_code):
+async def get_spotify_access_token(authorization_code: str, redirect_base_url: str):
     access_token_response = await spotify_client.get_access_token(
-        authorization_code
+        authorization_code,
+        redirect_base_url,
     )
 
     return access_token_response['access_token']
 
 
-async def is_access_token_valid(access_token):
+async def is_access_token_valid(access_token: str):
     if not access_token:
         return False
 
@@ -33,7 +34,7 @@ async def is_access_token_valid(access_token):
     return True
 
 
-async def create_new_user_if_necessary(access_token):
+async def create_new_user_if_necessary(access_token: str):
     spotify_user = await spotify_service.get_spotify_user(access_token)
     session = Session()
 
