@@ -1,12 +1,8 @@
 import urllib.parse
 
 from musictaxonomy.auth import service as auth_service
-from musictaxonomy.auth.models import SpotifyAuthorization
-from musictaxonomy.database import Session
 from musictaxonomy.handlers import BaseAPIHandler
 from musictaxonomy.spotify import constants as spotify_constants
-from musictaxonomy.spotify import client as spotify_client
-from musictaxonomy.spotify import service as spotify_service
 from settings import HOST, SPOTIFY_CLIENT_ID
 
 
@@ -26,7 +22,7 @@ class LoginHandler(BaseAPIHandler):
         access_token = self.get_access_token()
         is_access_token_valid = await auth_service.is_access_token_valid(access_token)
 
-        # User is already logged in.
+        # User is already logged in, redirect to IndexHandler.
         if is_access_token_valid:
             return self.redirect('/', permanent=False)
 
@@ -59,31 +55,16 @@ class OauthCallbackHandler(BaseAPIHandler):
         https://developer.spotify.com/documentation/general/guides/authorization-guide
         """
         authorization_code = self.get_argument('code')
-        access_token_response = await spotify_client.get_access_token(
+
+        # Exchange authorization code for an access token from Spotify.
+        access_token = await auth_service.get_spotify_access_token(
             authorization_code
         )
-        access_token = access_token_response['access_token']
-        refresh_token = access_token_response['refresh_token']
 
-        spotify_user = await spotify_service.get_spotify_user(access_token)
-
-        session = Session()
-        if not auth_service.does_spotify_user_exist(session, spotify_user):
-            user = auth_service.create_user_from_spotify_user(spotify_user)
-            session.add(user)
-            session.commit()
-        else:
-            user = auth_service.get_user_from_spotify_user(session, spotify_user)
-
-        spotify_authorization = SpotifyAuthorization(
-            user_id=user.id,
-            access_token=access_token,
-            refresh_token=refresh_token,
-        )
-
-        session.add(spotify_authorization)
-        session.commit()
-
+        # Set the access token as a cookie.
         self.set_secure_cookie('AccessToken', access_token)
+
+        # Create a new User in the database if it does not exist already.
+        await auth_service.create_new_user_if_necessary(access_token)
 
         return self.redirect('/', permanent=False)
