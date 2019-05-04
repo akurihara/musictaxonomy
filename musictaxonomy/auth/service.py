@@ -1,16 +1,37 @@
+import urllib.parse
+
 from tornado.httpclient import HTTPClientError
 
 from musictaxonomy.auth.models import User
 from musictaxonomy.database import Session
 from musictaxonomy.spotify import client as spotify_client
+from musictaxonomy.spotify import constants as spotify_constants
 from musictaxonomy.spotify import service as spotify_service
+from settings import SPOTIFY_CLIENT_ID
 
 
 __all__ = [
+    'generate_spotify_authorize_url',
     'get_spotify_access_token',
     'is_access_token_valid',
     'create_new_user_if_necessary',
 ]
+
+
+def generate_spotify_authorize_url(host):
+    redirect_base_url = 'https://{host}'.format(host=host)
+    query_parameters = {
+        'client_id': SPOTIFY_CLIENT_ID,
+        'response_type': 'code',
+        'redirect_uri': '{}/callback/oauth'.format(redirect_base_url),
+        'scope': 'user-top-read',
+    }
+    spotify_authorize_url = '{base}?{query_string}'.format(
+        base=spotify_constants.SPOTIFY_AUTHORIZE_URL,
+        query_string=urllib.parse.urlencode(query_parameters),
+    )
+
+    return spotify_authorize_url
 
 
 async def get_spotify_access_token(authorization_code: str, redirect_base_url: str):

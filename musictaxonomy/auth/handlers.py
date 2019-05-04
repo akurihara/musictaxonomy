@@ -1,9 +1,5 @@
-import urllib.parse
-
 from musictaxonomy.auth import service as auth_service
 from musictaxonomy.handlers import BaseAPIHandler
-from musictaxonomy.spotify import constants as spotify_constants
-from settings import SPOTIFY_CLIENT_ID
 
 
 class LoginHandler(BaseAPIHandler):
@@ -26,20 +22,7 @@ class LoginHandler(BaseAPIHandler):
         if is_access_token_valid:
             return self.redirect('/', permanent=False)
 
-        redirect_base_url = '{protocol}://{host}'.format(
-            protocol=self.request.protocol,
-            host=self.request.host,
-        )
-        query_parameters = {
-            'client_id': SPOTIFY_CLIENT_ID,
-            'response_type': 'code',
-            'redirect_uri': '{}/callback/oauth'.format(redirect_base_url),
-            'scope': 'user-top-read',
-        }
-        spotify_authorize_url = '{base}?{query_string}'.format(
-            base=spotify_constants.SPOTIFY_AUTHORIZE_URL,
-            query_string=urllib.parse.urlencode(query_parameters),
-        )
+        spotify_authorize_url = auth_service.generate_spotify_authorize_url(self.request.host)
 
         return self.redirect(spotify_authorize_url, permanent=False)
 
