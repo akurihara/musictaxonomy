@@ -38,6 +38,11 @@ class BaseAPIHandler(RequestHandler):
 class IndexHandler(BaseAPIHandler):
 
     async def get(self):
+        """
+        The IndexHandler serves HTML containing the Javascript single-page application. The
+        application calls the `GET /taxonomy_graphs` endpoint to load the user's taxonomy
+        graph.
+        """
         access_token = self.get_access_token()
         is_access_token_valid = await auth_service.is_access_token_valid(access_token)
 
@@ -51,6 +56,9 @@ class IndexHandler(BaseAPIHandler):
 class StatusHandler(BaseAPIHandler):
 
     def get(self):
+        """
+        The status endpoint can be used to quickly check on the health of the application.
+        """
         response = {
             'message': 'ok',
             'status': 200,
