@@ -44,5 +44,5 @@ Then, nagivate to `localhost:8080` in your browser.
 
 Run tests with:
 ```
-nosetests test
+source .env.test && nosetests test
 ```
