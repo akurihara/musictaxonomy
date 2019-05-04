@@ -1,3 +1,4 @@
+from typing import Optional
 import urllib.parse
 
 from tornado.httpclient import HTTPClientError
@@ -7,6 +8,7 @@ from musictaxonomy.database import Session
 from musictaxonomy.spotify import client as spotify_client
 from musictaxonomy.spotify import constants as spotify_constants
 from musictaxonomy.spotify import service as spotify_service
+from musictaxonomy.spotify.models import SpotifyUser
 from settings import SPOTIFY_CLIENT_ID
 
 
@@ -18,7 +20,7 @@ __all__ = [
 ]
 
 
-def generate_spotify_authorize_url(redirect_base_url):
+def generate_spotify_authorize_url(redirect_base_url: str) -> str:
     query_parameters = {
         'client_id': SPOTIFY_CLIENT_ID,
         'response_type': 'code',
@@ -33,7 +35,7 @@ def generate_spotify_authorize_url(redirect_base_url):
     return spotify_authorize_url
 
 
-async def get_spotify_access_token(authorization_code: str, redirect_base_url: str):
+async def get_spotify_access_token(authorization_code: str, redirect_base_url: str) -> str:
     access_token_response = await spotify_client.get_access_token(
         authorization_code,
         redirect_base_url,
@@ -42,7 +44,7 @@ async def get_spotify_access_token(authorization_code: str, redirect_base_url: s
     return access_token_response['access_token']
 
 
-async def is_access_token_valid(access_token: str):
+async def is_access_token_valid(access_token: str) -> bool:
     if not access_token:
         return False
 
@@ -54,25 +56,30 @@ async def is_access_token_valid(access_token: str):
     return True
 
 
-async def create_new_user_if_necessary(access_token: str):
+async def create_new_user_if_necessary(access_token: str) -> Optional[User]:
     spotify_user = await spotify_service.get_spotify_user(access_token)
     session = Session()
+    user = None
 
     if not _does_spotify_user_exist(session, spotify_user):
-        _create_user_from_spotify_user(
+        user = _create_user_from_spotify_user(
             session,
             spotify_user,
             should_commit=True,
         )
 
+    return user
 
-def _does_spotify_user_exist(session, spotify_user):
+
+def _does_spotify_user_exist(session: Session, spotify_user: SpotifyUser) -> bool:
     return session.query(User) \
         .filter_by(external_id=spotify_user.id, external_source='spotify') \
         .count() > 0
 
 
-def _create_user_from_spotify_user(session, spotify_user, should_commit=False):
+def _create_user_from_spotify_user(session: Session,
+                                   spotify_user: SpotifyUser,
+                                   should_commit: bool = False) -> User:
     user = User(
         display_name=spotify_user.display_name,
         external_source='spotify',
@@ -83,4 +90,4 @@ def _create_user_from_spotify_user(session, spotify_user, should_commit=False):
     if should_commit:
         session.commit()
 
-    return User
+    return user

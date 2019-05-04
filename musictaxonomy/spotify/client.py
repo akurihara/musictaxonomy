@@ -1,4 +1,5 @@
 import json
+from typing import Dict
 
 from tornado.httpclient import AsyncHTTPClient
 import urllib.parse
@@ -14,7 +15,7 @@ __all__ = [
 ]
 
 
-async def get_access_token(authorization_code: str, redirect_base_url: str):
+async def get_access_token(authorization_code: str, redirect_base_url: str) -> Dict:
     post_data = {
         'grant_type': 'authorization_code',
         'code': authorization_code,
@@ -33,7 +34,7 @@ async def get_access_token(authorization_code: str, redirect_base_url: str):
     return json.loads(response.body)
 
 
-async def get_current_user_profile(access_token: str):
+async def get_current_user_profile(access_token: str) -> Dict:
     headers = {'Authorization': 'Bearer {}'.format(access_token)}
     url = '{base}/me'.format(base=spotify_constants.SPOTIFY_API_BASE_URL)
 
@@ -48,7 +49,7 @@ async def get_current_user_profile(access_token: str):
     return parsed_body
 
 
-async def get_top_artists_in_time_range(access_token: str, time_range: str):
+async def get_top_artists_in_time_range(access_token: str, time_range: str) -> Dict:
     query_parameters = {
         'time_range': time_range,
         'limit': 50,
