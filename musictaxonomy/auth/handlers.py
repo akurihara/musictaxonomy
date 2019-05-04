@@ -18,7 +18,7 @@ class LoginHandler(BaseAPIHandler):
         access_token = self.get_access_token()
         is_access_token_valid = await auth_service.is_access_token_valid(access_token)
 
-        # User is already logged in, redirect to IndexHandler.
+        # User is already logged in, so redirect them to the core application.
         if is_access_token_valid:
             return self.redirect('/', permanent=False)
 
@@ -43,7 +43,7 @@ class OauthCallbackHandler(BaseAPIHandler):
         """
         authorization_code = self.get_argument('code')
 
-        # Exchange authorization code for an access token from Spotify.
+        # Exchange the authorization code for an access token from Spotify.
         redirect_base_url = '{protocol}://{host}'.format(
             protocol=self.request.protocol,
             host=self.request.host,
@@ -56,7 +56,8 @@ class OauthCallbackHandler(BaseAPIHandler):
         # Set the access token as a cookie.
         self.set_secure_cookie('AccessToken', access_token)
 
-        # Create a new User in the database if it does not exist already.
+        # Create a new User in the database if one does not already exist.
         await auth_service.create_new_user_if_necessary(access_token)
 
+        # Redirect the user to the core application.
         return self.redirect('/', permanent=False)
