@@ -4,7 +4,7 @@ import tornado
 import tornado.options
 from tornado.options import define
 
-define('port', default=8888, help='run on the given port', type=int)
+define('port', help='run on the given port', type=int)
 tornado.options.parse_command_line()
 
 settings = {
