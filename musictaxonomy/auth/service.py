@@ -18,8 +18,7 @@ __all__ = [
 ]
 
 
-def generate_spotify_authorize_url(host):
-    redirect_base_url = 'https://{host}'.format(host=host)
+def generate_spotify_authorize_url(redirect_base_url):
     query_parameters = {
         'client_id': SPOTIFY_CLIENT_ID,
         'response_type': 'code',

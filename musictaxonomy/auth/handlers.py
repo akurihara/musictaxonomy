@@ -22,7 +22,11 @@ class LoginHandler(BaseAPIHandler):
         if is_access_token_valid:
             return self.redirect('/', permanent=False)
 
-        spotify_authorize_url = auth_service.generate_spotify_authorize_url(self.request.host)
+        redirect_base_url = '{protocol}://{host}'.format(
+            protocol=self.request.protocol,
+            host=self.request.host,
+        )
+        spotify_authorize_url = auth_service.generate_spotify_authorize_url(redirect_base_url)
 
         return self.redirect(spotify_authorize_url, permanent=False)
 
