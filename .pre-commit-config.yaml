@@ -1,0 +1,4 @@
+- repo: https://github.com/pre-commit/mirrors-mypy
+  rev: '9ab5f6aba6cbb29725efc79fa95d73170dacc6e0'
+  hooks:
+    - id: mypy

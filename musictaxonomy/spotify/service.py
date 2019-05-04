@@ -1,3 +1,5 @@
+from typing import Any, Dict, List
+
 from musictaxonomy.spotify import client as spotify_client
 from musictaxonomy.spotify.models import SpotifyArtist, SpotifyUser
 
@@ -7,8 +9,10 @@ __all__ = [
     'get_all_top_artists_for_user',
 ]
 
+SpotifyArtistDocument = Dict[str, Any]
 
-async def get_spotify_user(access_token: str):
+
+async def get_spotify_user(access_token: str) -> SpotifyUser:
     user_profile_response = await spotify_client.get_current_user_profile(access_token)
     spotify_user = SpotifyUser(
         id=user_profile_response['id'],
@@ -18,7 +22,7 @@ async def get_spotify_user(access_token: str):
     return spotify_user
 
 
-async def get_all_top_artists_for_user(access_token: str):
+async def get_all_top_artists_for_user(access_token: str) -> List[SpotifyArtist]:
     futures = [
         spotify_client.get_top_artists_in_time_range(access_token, time_range)
         for time_range in ('short_term', 'medium_term', 'long_term')
@@ -32,12 +36,15 @@ async def get_all_top_artists_for_user(access_token: str):
     ]
 
 
-def _parse_spotify_artists_from_top_artists_response(response):
+def _parse_spotify_artists_from_top_artists_response(response: Dict) -> List[SpotifyArtist]:
     artist_documents = response['items']
-    return [_parse_spotify_artist_from_artist_document(document) for document in artist_documents]
+    return [
+        _parse_spotify_artist_from_artist_document(document)
+        for document in artist_documents
+    ]
 
 
-def _parse_spotify_artist_from_artist_document(artist_document):
+def _parse_spotify_artist_from_artist_document(artist_document: SpotifyArtistDocument) -> SpotifyArtist:
     return SpotifyArtist(
         id=artist_document['id'],
         name=artist_document['name'],

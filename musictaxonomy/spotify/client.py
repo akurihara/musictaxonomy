@@ -23,6 +23,7 @@ async def get_access_token(authorization_code: str, redirect_base_url: str):
         'client_secret': SPOTIFY_CLIENT_SECRET,
     }
     body = urllib.parse.urlencode(post_data)
+
     response = await AsyncHTTPClient().fetch(
         spotify_constants.SPOTIFY_TOKEN_URL,
         method='POST',
