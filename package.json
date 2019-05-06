@@ -1,0 +1,10 @@
+{
+    "name": "music-taxonomy",
+    "version": "1.0.0",
+    "engines": {
+        "npm": "6.9.0"
+    },
+    "scripts": {
+        "heroku-postbuild": "cd static/js && npm install && npm run build"
+    }
+}

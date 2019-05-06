@@ -4,14 +4,13 @@
   "description": "Visualizer for your top artists and genres",
   "main": "index.js",
   "scripts": {
-    "build": "grunt browserify",
-    "heroku-postbuild": "npm run build"
+    "build": "grunt browserify"
   },
   "author": "Alex Kurihara",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/akurihara/todomvc.git"
+    "url": "https://github.com/akurihara/musictaxonomy.git"
   },
   "dependencies": {
     "acorn": "~6.0.4",
@@ -19,7 +18,7 @@
     "classnames": "~2.2.6",
     "d3": "~5.7.0",
     "lodash": "~4.17.11",
-    "npm": "~6.4.1",
+    "npm": "~6.9.0",
     "react": "~16.6.3",
     "react-d3-graph": "~2.0.0-rc2",
     "react-dom": "~16.6.3",

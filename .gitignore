@@ -8,3 +8,4 @@
 node_modules
 tags
 .mypy_cache
+bundle.js
