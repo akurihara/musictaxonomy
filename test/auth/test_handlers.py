@@ -14,7 +14,7 @@ class LoginHandlerTest(AsyncHTTPTestCase):
     def get_app(self):
         return server.make_app()
 
-    def test_get(self):
+    def test_get_without_access_token(self):
         response = self.fetch(
             path='/login',
             method='GET',

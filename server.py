@@ -5,7 +5,7 @@ from tornado.options import options
 from tornado.web import Application
 
 from musictaxonomy.auth.handlers import LoginHandler, OauthCallbackHandler
-from musictaxonomy.graph.handlers import CreateTaxonomyGraphHandler
+from musictaxonomy.graph.handlers import TaxonomyGraphHandler
 from musictaxonomy.handlers import IndexHandler, StatusHandler
 from settings import settings
 
@@ -15,7 +15,7 @@ def make_app():
         [
             (r"/", IndexHandler),
             (r"/status", StatusHandler),
-            (r"/taxonomy_graphs", CreateTaxonomyGraphHandler),
+            (r"/taxonomy_graphs", TaxonomyGraphHandler),
             (r"/login", LoginHandler),
             (r"/callback/oauth", OauthCallbackHandler),
         ],

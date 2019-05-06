@@ -6,7 +6,7 @@ from musictaxonomy.handlers import BaseAPIHandler
 from musictaxonomy.spotify import service as spotify_service
 
 
-class CreateTaxonomyGraphHandler(BaseAPIHandler):
+class TaxonomyGraphHandler(BaseAPIHandler):
 
     async def get(self):
         access_token = self.get_access_token()
