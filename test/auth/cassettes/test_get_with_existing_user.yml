@@ -1,0 +1,92 @@
+interactions:
+- request:
+    body: grant_type=authorization_code&code=AQAYIHUkyhPGAtmQ&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fcallback%2Foauth&client_id=test_spotify_client_id&client_secret=test_spotify_client_secret
+    headers: {}
+    method: POST
+    uri: https://accounts.spotify.com/api/token
+  response:
+    body:
+      string: '{"access_token":"ARB9kD_VF3rtL5DA3JtchoNE7q11DggzH39QzgGY6Mwqc0_FM959DaW1LmU2_3cCQ8le63SmA2jMekc7diLQG0dktSNCIeNlyFxnyqnKlOFgRQluk6d_t52KIMLvOVyCiB5I3KjOMb-jDOmBkJwsk7CLeHqa","token_type":"Bearer","expires_in":3600,"refresh_token":"AQDdGoI3DYI_-faLN3_9FYzJD20ZQxX4KjEHCRRIoHstdZjKcA7B_PLp4NnvQ3lmJyGdmsWPazM8poaD2sftw1sh3cwZh0fzJxFPIt8Jw3_KpJx6i4VllA-OFqEgNA2FbRHp9Q","scope":"user-top-read"}'
+    headers:
+    - !!python/tuple
+      - Server
+      - - nginx
+    - !!python/tuple
+      - Date
+      - - Fri, 19 Apr 2019 03:48:44 GMT
+    - !!python/tuple
+      - Content-Type
+      - - application/json
+    - !!python/tuple
+      - Content-Length
+      - - '74'
+    - !!python/tuple
+      - Connection
+      - - close
+    status:
+      code: 200
+      message: OK
+    url: https://accounts.spotify.com/api/token
+- request:
+    body: null
+    headers:
+      Authorization:
+      - Bearer ARB9kD_VF3rtL5DA3JtchoNE7q11DggzH39QzgGY6Mwqc0_FM959DaW1LmU2_3cCQ8le63SmA2jMekc7diLQG0dktSNCIeNlyFxnyqnKlOFgRQluk6d_t52KIMLvOVyCiB5I3KjOMb-jDOmBkJwsk7CLeHqa
+    method: GET
+    uri: https://api.spotify.com/v1/me
+  response:
+    body:
+      string: "{\n  \"display_name\" : \"Alex Kurihara\",\n  \"external_urls\" : {\n
+        \   \"spotify\" : \"https://open.spotify.com/user/1220628328\"\n  },\n  \"followers\"
+        : {\n    \"href\" : null,\n    \"total\" : 33\n  },\n  \"href\" : \"https://api.spotify.com/v1/users/1220628328\",\n
+        \ \"id\" : \"1220628328\",\n  \"images\" : [ {\n    \"height\" : null,\n    \"url\"
+        : \"https://scontent.xx.fbcdn.net/v/t1.0-1/p200x200/41099630_10157867952592796_6351742188191219712_n.jpg?_nc_cat=109&_nc_ht=scontent.xx&oh=431c4339a761ce308c17f4721f69bbb9&oe=5D325A29\",\n
+        \   \"width\" : null\n  } ],\n  \"type\" : \"user\",\n  \"uri\" : \"spotify:user:1220628328\"\n}"
+    headers:
+    - !!python/tuple
+      - Content-Type
+      - - application/json; charset=utf-8
+    - !!python/tuple
+      - Cache-Control
+      - - private, max-age=0
+    - !!python/tuple
+      - Vary
+      - - Authorization
+    - !!python/tuple
+      - Access-Control-Allow-Origin
+      - - '*'
+    - !!python/tuple
+      - Access-Control-Allow-Headers
+      - - Accept, Authorization, Origin, Content-Type, Retry-After
+    - !!python/tuple
+      - Access-Control-Allow-Methods
+      - - GET, POST, OPTIONS, PUT, DELETE, PATCH
+    - !!python/tuple
+      - Access-Control-Allow-Credentials
+      - - 'true'
+    - !!python/tuple
+      - Access-Control-Max-Age
+      - - '604800'
+    - !!python/tuple
+      - Date
+      - - Fri, 19 Apr 2019 03:53:58 GMT
+    - !!python/tuple
+      - Via
+      - - 1.1 google
+    - !!python/tuple
+      - Alt-Svc
+      - - clear
+    - !!python/tuple
+      - Connection
+      - - close
+    - !!python/tuple
+      - Transfer-Encoding
+      - - chunked
+    - !!python/tuple
+      - X-Consumed-Content-Encoding
+      - - gzip
+    status:
+      code: 200
+      message: OK
+    url: https://api.spotify.com/v1/me
+version: 1

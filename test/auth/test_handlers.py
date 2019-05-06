@@ -77,3 +77,35 @@ class OauthCallbackHandlerTest(AsyncHTTPTestCase):
         self.assertIsNotNone(user)
         self.assertEqual(user.display_name, 'Alex Kurihara')
         self.assertEqual(user.external_source, 'spotify')
+
+    @vcr.use_cassette('test/auth/cassettes/test_get_with_existing_user.yml', ignore_localhost=True)
+    def test_get_with_existing_user(self):
+        # Create a user in the database.
+        user = User(
+            display_name='Alex Kurihara',
+            external_id=1220628328,
+            external_source='spotify',
+        )
+        self.session.add(user)
+        self.session.commit()
+        query_parameters = {
+            'code': 'AQAYIHUkyhPGAtmQ'
+        }
+        url = '{}?{}'.format('/callback/oauth', parse.urlencode(query_parameters))
+
+        response = self.fetch(
+            path=url,
+            method='GET',
+            follow_redirects=False,
+        )
+
+        # Verify the response code.
+        self.assertEqual(response.code, 302)
+
+        # Verify the redirect host and path.
+        parsed_url = parse.urlparse(response.headers['Location'])
+        self.assertEqual(parsed_url.netloc, '')
+        self.assertEqual(parsed_url.path, '/')
+
+        # Verify a new user was not created in the database.
+        self.assertEqual(self.session.query(User).count(), 1)
