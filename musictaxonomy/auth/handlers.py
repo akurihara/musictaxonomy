@@ -1,5 +1,6 @@
 from musictaxonomy.auth import service as auth_service
 from musictaxonomy.handlers import BaseAPIHandler
+from musictaxonomy.spotify import service as spotify_service
 
 
 class LoginHandler(BaseAPIHandler):
@@ -61,7 +62,8 @@ class OauthCallbackHandler(BaseAPIHandler):
         self.set_secure_cookie('AccessToken', access_token)
 
         # Create a new User in the database if one does not already exist.
-        await auth_service.create_new_user_if_necessary(access_token)
+        spotify_user = await spotify_service.get_spotify_user(access_token)
+        await auth_service.create_new_user_if_necessary(spotify_user)
 
         # Redirect the user to the core application.
         return self.redirect('/', permanent=False)

@@ -7,7 +7,6 @@ from musictaxonomy.auth.models import User
 from musictaxonomy.database import Session
 from musictaxonomy.spotify import client as spotify_client
 from musictaxonomy.spotify import constants as spotify_constants
-from musictaxonomy.spotify import service as spotify_service
 from musictaxonomy.spotify.models import SpotifyUser
 from settings import SPOTIFY_CLIENT_ID
 
@@ -56,8 +55,7 @@ async def is_access_token_valid(access_token: str) -> bool:
     return True
 
 
-async def create_new_user_if_necessary(access_token: str) -> Optional[User]:
-    spotify_user = await spotify_service.get_spotify_user(access_token)
+async def create_new_user_if_necessary(spotify_user: SpotifyUser) -> Optional[User]:
     session = Session()
     user = None
 
@@ -72,6 +70,9 @@ async def create_new_user_if_necessary(access_token: str) -> Optional[User]:
 
 
 def _does_spotify_user_exist(session: Session, spotify_user: SpotifyUser) -> bool:
+    """
+    Check if the given SpotifyUser object has corresponding User row stored in the database.
+    """
     return session.query(User) \
         .filter_by(external_id=spotify_user.id, external_source='spotify') \
         .count() > 0
@@ -80,6 +81,9 @@ def _does_spotify_user_exist(session: Session, spotify_user: SpotifyUser) -> boo
 def _create_user_from_spotify_user(session: Session,
                                    spotify_user: SpotifyUser,
                                    should_commit: bool = False) -> User:
+    """
+    Create a User row in the database from the given SpotifyUser object.
+    """
     user = User(
         display_name=spotify_user.display_name,
         external_source='spotify',
