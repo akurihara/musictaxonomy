@@ -1,0 +1,57 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Authorization:
+      - Bearer invalid
+    method: GET
+    uri: https://api.spotify.com/v1/me
+  response:
+    body:
+      string: "{\n  \"error\": {\n    \"status\": 401,\n    \"message\": \"Invalid
+        access token\"\n  }\n}"
+    headers:
+    - !!python/tuple
+      - Www-Authenticate
+      - - Bearer realm="spotify", error="invalid_token", error_description="Invalid
+          access token"
+    - !!python/tuple
+      - Access-Control-Allow-Origin
+      - - '*'
+    - !!python/tuple
+      - Access-Control-Allow-Headers
+      - - Accept, Authorization, Origin, Content-Type, Retry-After
+    - !!python/tuple
+      - Access-Control-Allow-Methods
+      - - GET, POST, OPTIONS, PUT, DELETE, PATCH
+    - !!python/tuple
+      - Access-Control-Allow-Credentials
+      - - 'true'
+    - !!python/tuple
+      - Access-Control-Max-Age
+      - - '604800'
+    - !!python/tuple
+      - Content-Type
+      - - application/json
+    - !!python/tuple
+      - Date
+      - - Mon, 06 May 2019 03:28:55 GMT
+    - !!python/tuple
+      - Via
+      - - 1.1 google
+    - !!python/tuple
+      - Alt-Svc
+      - - clear
+    - !!python/tuple
+      - Connection
+      - - close
+    - !!python/tuple
+      - Transfer-Encoding
+      - - chunked
+    - !!python/tuple
+      - X-Consumed-Content-Encoding
+      - - gzip
+    status:
+      code: 401
+      message: Unauthorized
+    url: https://api.spotify.com/v1/me
