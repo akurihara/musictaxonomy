@@ -1,5 +1,6 @@
 import json
 
+from jsonschema import validate
 from tornado.testing import AsyncHTTPTestCase
 import vcr
 
@@ -32,5 +33,34 @@ class TaxonomyGraphHandlerTest(AsyncHTTPTestCase):
 
         # Verify response body.
         parsed_response = json.loads(response.body)
-        self.assertIn('nodes', parsed_response)
-        self.assertIn('links', parsed_response)
+        schema = {
+            "type": "object",
+            "properties": {
+                "nodes": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "color": {"type": "string"},
+                            "source": {"type": "string"},
+                            "target": {"type": "string"},
+                        },
+                    },
+                },
+                "links": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "color": {"type": "string"},
+                            "fontSize": {"type": "number"},
+                            "name": {"type": "string"},
+                            "size": {"type": "number"},
+                            "id": {"type": "string"},
+                            "strokeColor": {"type": "string"},
+                        },
+                    },
+                },
+            },
+        }
+        validate(instance=parsed_response, schema=schema)
