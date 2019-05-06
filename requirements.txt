@@ -1,3 +1,4 @@
+coverage==4.5.3
 backports-abc==0.5
 singledispatch==3.4.0.3
 six==1.11.0
