@@ -27,11 +27,11 @@ It was inspired an [infographic](https://turnerkarl.wordpress.com/2012/10/11/fin
    - `DATABASE_URL` - Database URL specifying which database to connect to locally (e.g. `sqlite:///database.db`).
 
 3. Install SQLite, create a new database, and initialize tables.
-  ```
-  $ brew install sqlite3
-  $ sqlite3 database.db
-  $ source .env && scripts/initialize_database.py
-  ```
+   ```
+   $ brew install sqlite3
+   $ sqlite3 database.db
+   $ source .env && scripts/initialize_database.py
+   ```
 
 4. Build the React frontend using:
    ```
