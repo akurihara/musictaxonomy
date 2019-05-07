@@ -26,7 +26,14 @@ It was inspired an [infographic](https://turnerkarl.wordpress.com/2012/10/11/fin
    - `SPOTIFY_CLIENT_SECRET` - The client secret of your Spotify application.
    - `DATABASE_URL` - Database URL specifying which database to connect to locally (e.g. `sqlite:///database.db`).
 
-3. Build the React frontend using:
+3. Install SQLite, create a new database, and initialize tables.
+  ```
+  $ brew install sqlite3
+  $ sqlite3 database.db
+  $ source .env && scripts/initialize_database.py
+  ```
+
+4. Build the React frontend using:
    ```
    $ npm install
    $ npm run build
@@ -41,6 +48,12 @@ $ python server.py --port=8080
 Then, nagivate to `localhost:8080` in your browser.
 
 ## Running Tests
+
+Create a test database if you haven't done so already:
+```
+$ sqlite3 test_database.db
+$ source .env.test && scripts/initialize_database.py
+```
 
 Run tests with:
 ```
