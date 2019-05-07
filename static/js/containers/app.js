@@ -18,7 +18,8 @@ class App extends Component {
   constructor(props, context) {
     super();
     this.state = {
-      data: null
+      data: null,
+      isLoading: true
     }
 
     this.getData()
@@ -26,11 +27,11 @@ class App extends Component {
 
   getData() {
     axios.get('/taxonomy_graphs')
-      .then(response => this.setState({data: response.data}));
+      .then(response => this.setState({data: response.data, isLoading: false}));
   }
 
   render() {
-    if (this.state.data === null) {
+    if (this.state.isLoading === true) {
       return (
         <p>Loading...</p>
       );
