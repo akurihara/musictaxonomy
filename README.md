@@ -24,7 +24,7 @@ It was inspired an [infographic](https://turnerkarl.wordpress.com/2012/10/11/fin
    Add the following variables to the .env file:
    - `SPOTIFY_CLIENT_ID` - The client ID of your Spotify application. This can be found at the Spotify [developer dashboard](https://developer.spotify.com/dashboard/applications).
    - `SPOTIFY_CLIENT_SECRET` - The client secret of your Spotify application.
-   - `DATABASE_URL` - Database URL specifying which database to connect to (e.g. `postgres://postgres@127.0.0.1:5432/testing_db`).
+   - `DATABASE_URL` - Database URL specifying which database to connect to locally (e.g. `sqlite:///database.db`).
 
 3. Build the React frontend using:
    ```
