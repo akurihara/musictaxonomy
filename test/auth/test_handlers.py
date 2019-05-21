@@ -63,7 +63,11 @@ class LoginHandlerTest(AsyncHTTPTestCase):
     @vcr.use_cassette('test/auth/cassettes/test_get_with_invalid_access_token.yml', ignore_localhost=True)
     def test_get_with_invalid_access_token(self):
         headers = {
-            "Cookie": "AccessToken=invalid",
+            "Cookie": "AccessToken=2|1:0|10:1557112070|11:AccessToken|208:QlFERHdTaF9FTmJPMn"
+                      "Z0T1A2bEg2Z0Mtdjk4QzZndjdZV1RBZERZcFp1TTM5SlNmVVBkV2RybGFuX1JoQW1fZlZ"
+                      "HajV0djR3dE5fbkxzNjNMRVBvZ2ttRjNEY1dJUmpHNVJzV1VEUTRlVjVKS0lVQV9fSlNO"
+                      "S0dpVU9GbHFpdHFYSHgyRHhnN2VRNlduXzN5S1RoZ2RpSk5IeHR2|d960f7c5da188ca1"
+                      "3c0e1307e9c91fe81ea9d877308acc90da076738143b70c5",
         }
         response = self.fetch(
             path='/login',
