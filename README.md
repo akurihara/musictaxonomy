@@ -2,7 +2,10 @@
 
 # musictaxonomy
 
+
 Music Taxonomy lets you express your musical taste in a way that's visual, organized, and delightful! See a live demo [here](http://musictaxonomy.herokuapp.com).
+
+![Taxonomy Graph](https://i.imgur.com/dBQnPCB.png)
 
 It was inspired an [infographic](https://turnerkarl.wordpress.com/2012/10/11/finished-music-infographic) created by artist Karl Turner.
 
