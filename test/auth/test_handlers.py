@@ -1,6 +1,6 @@
 from urllib import parse
-from tornado.testing import AsyncHTTPTestCase
 
+from tornado.testing import AsyncHTTPTestCase
 import vcr
 
 import server

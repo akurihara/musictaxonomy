@@ -64,3 +64,20 @@ class TaxonomyGraphHandlerTest(AsyncHTTPTestCase):
             },
         }
         validate(instance=parsed_response, schema=schema)
+
+    def test_get_without_access_token(self):
+        response = self.fetch(
+            path='/taxonomy_graphs',
+            method='GET',
+            follow_redirects=False,
+        )
+
+        # Verify the response code.
+        self.assertEqual(response.code, 401)
+
+        # Verify response body.
+        parsed_response = json.loads(response.body)
+        self.assertDictEqual(
+            parsed_response,
+            {'error': {'code': 401, 'message': 'Unauthorized'}}
+        )
