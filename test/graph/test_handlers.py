@@ -12,7 +12,10 @@ class TaxonomyGraphHandlerTest(AsyncHTTPTestCase):
     def get_app(self):
         return server.make_app()
 
-    @vcr.use_cassette('test/graph/cassettes/test_get.yml', ignore_localhost=True)
+    @vcr.use_cassette(
+        'test/graph/cassettes/taxonomy_graph_handler_test/test_get.yml',
+        ignore_localhost=True
+    )
     def test_get(self):
         headers = {
             "Cookie": "AccessToken=2|1:0|10:1557112070|11:AccessToken|208:QlFERHdTaF9FTmJPMn"

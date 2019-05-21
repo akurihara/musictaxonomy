@@ -36,7 +36,10 @@ class LoginHandlerTest(AsyncHTTPTestCase):
         self.assertEqual(parsed_query_string['client_id'], SPOTIFY_CLIENT_ID)
         self.assertTrue(parsed_query_string['redirect_uri'].endswith('/callback/oauth'))
 
-    @vcr.use_cassette('test/auth/cassettes/test_get_with_valid_access_token.yml', ignore_localhost=True)
+    @vcr.use_cassette(
+        'test/auth/cassettes/login_handler_test/test_get_with_valid_access_token.yml',
+        ignore_localhost=True
+    )
     def test_get_with_valid_access_token(self):
         headers = {
             "Cookie": "AccessToken=2|1:0|10:1557112070|11:AccessToken|208:QlFERHdTaF9FTmJPMn"
@@ -60,7 +63,10 @@ class LoginHandlerTest(AsyncHTTPTestCase):
         self.assertEqual(parsed_url.netloc, '')
         self.assertEqual(parsed_url.path, '/')
 
-    @vcr.use_cassette('test/auth/cassettes/test_get_with_invalid_access_token.yml', ignore_localhost=True)
+    @vcr.use_cassette(
+        'test/auth/cassettes/login_handler_test/test_get_with_invalid_access_token.yml',
+        ignore_localhost=True
+    )
     def test_get_with_invalid_access_token(self):
         headers = {
             "Cookie": "AccessToken=2|1:0|10:1557112070|11:AccessToken|208:QlFERHdTaF9FTmJPMn"
@@ -106,7 +112,10 @@ class OauthCallbackHandlerTest(AsyncHTTPTestCase):
     def get_app(self):
         return server.make_app()
 
-    @vcr.use_cassette('test/auth/cassettes/test_get_with_new_user.yml', ignore_localhost=True)
+    @vcr.use_cassette(
+        'test/auth/cassettes/oauth_callback_handler_test/test_get_with_new_user.yml',
+        ignore_localhost=True
+    )
     def test_get_with_new_user(self):
         query_parameters = {
             'code': 'AQAYIHUkyhPGAtmQ'
@@ -133,7 +142,10 @@ class OauthCallbackHandlerTest(AsyncHTTPTestCase):
         self.assertEqual(user.display_name, 'Alex Kurihara')
         self.assertEqual(user.external_source, 'spotify')
 
-    @vcr.use_cassette('test/auth/cassettes/test_get_with_existing_user.yml', ignore_localhost=True)
+    @vcr.use_cassette(
+        'test/auth/cassettes/oauth_callback_handler_test/test_get_with_existing_user.yml',
+        ignore_localhost=True
+    )
     def test_get_with_existing_user(self):
         # Create a user in the database.
         user = User(
