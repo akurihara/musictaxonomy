@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/akurihara/musictaxonomy.svg?branch=master)](https://travis-ci.org/akurihara/musictaxonomy)
+[![Codecov](https://codecov.io/gh/akurihara/musictaxonomy/branch/master/graph/badge.svg)](https://codecov.io/gh/akurihara/musictaxonomy)
 
 # musictaxonomy
 
