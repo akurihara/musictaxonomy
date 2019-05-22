@@ -2,7 +2,6 @@ from collections import defaultdict
 
 from musictaxonomy.graph.models import Genre, TaxonomyGraph
 
-
 __all__ = [
     'build_taxonomy_graph',
 ]

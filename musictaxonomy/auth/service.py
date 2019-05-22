@@ -1,5 +1,5 @@
-from typing import Optional
 import urllib.parse
+from typing import Optional
 
 from tornado.httpclient import HTTPClientError
 
@@ -9,7 +9,6 @@ from musictaxonomy.spotify import client as spotify_client
 from musictaxonomy.spotify import constants as spotify_constants
 from musictaxonomy.spotify.models import SpotifyUser
 from settings import SPOTIFY_CLIENT_ID
-
 
 __all__ = [
     'generate_spotify_authorize_url',

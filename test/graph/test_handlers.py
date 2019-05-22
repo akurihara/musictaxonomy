@@ -1,8 +1,8 @@
 import json
 
+import vcr
 from jsonschema import validate
 from tornado.testing import AsyncHTTPTestCase
-import vcr
 
 import server
 

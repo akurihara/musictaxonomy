@@ -1,5 +1,5 @@
-from musictaxonomy.database import Base, engine
 from musictaxonomy.auth import models as auth_models  # noqa: F401
+from musictaxonomy.database import Base, engine
 from musictaxonomy.graph import models as graph_models  # noqa: F401
 
 

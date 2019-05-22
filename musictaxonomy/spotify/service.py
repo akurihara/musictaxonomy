@@ -3,7 +3,6 @@ from typing import Any, Dict, List
 from musictaxonomy.spotify import client as spotify_client
 from musictaxonomy.spotify.models import SpotifyArtist, SpotifyUser
 
-
 __all__ = [
     'get_spotify_user',
     'get_all_top_artists_for_user',

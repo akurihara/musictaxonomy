@@ -1,7 +1,7 @@
 from urllib import parse
 
-from tornado.testing import AsyncHTTPTestCase
 import vcr
+from tornado.testing import AsyncHTTPTestCase
 
 import server
 from musictaxonomy.auth.models import User
