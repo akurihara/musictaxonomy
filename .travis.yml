@@ -22,4 +22,7 @@ before_script:
   - python scripts/initialize_database.py
 
 script:
-  - nosetests test
+  - nosetests test --with-coverage --cover-package=musictaxonomy
+
+after_success:
+  - codecov
