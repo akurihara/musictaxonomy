@@ -1,5 +1,6 @@
 from collections import defaultdict
 
+from musictaxonomy.graph import constants as graph_constants
 from musictaxonomy.graph.models import Genre, TaxonomyGraph
 
 __all__ = [
@@ -110,38 +111,57 @@ def _add_spotify_artist_to_taxonomy_graph(session, spotify_artist, taxonomy_grap
 
 
 def _choose_best_main_genre_name_for_artist(spotify_artist, main_genres):
-    main_genre_substring_matches = defaultdict(int)
-
     if 'pop' in spotify_artist.genres and 'edm' in spotify_artist.genres:
         return 'Electronic'
 
-    for main_genre in main_genres:
-        for spotify_genre in spotify_artist.genres:
+    matching_functions = [
+        _exact_match,
+        _best_substring_match,
+        _subgenre_alias_match,
+    ]
+
+    for matching_function in matching_functions:
+        main_genre_name = matching_function(spotify_artist.genres, main_genres)
+        if main_genre_name is not None:
+            return main_genre_name
+
+    return graph_constants.MAIN_GENRE_UNKNOWN
+
+
+def _exact_match(spotify_genres, main_genres):
+    for spotify_genre in spotify_genres:
+        for main_genre in main_genres:
             if main_genre.spotify_name == spotify_genre:
                 return main_genre.display_name
-            elif main_genre.spotify_name in spotify_genre:
+
+    return None
+
+
+def _best_substring_match(spotify_genres, main_genres):
+    main_genre_substring_matches = defaultdict(int)
+
+    for spotify_genre in spotify_genres:
+        for main_genre in main_genres:
+            if main_genre.spotify_name in spotify_genre:
                 main_genre_substring_matches[main_genre.display_name] += 1
 
-    if main_genre_substring_matches:
-        main_genre = max(
+    if len(main_genre_substring_matches) > 0:
+        main_genre_name = max(
             main_genre_substring_matches.keys(),
             key=lambda key: main_genre_substring_matches[key]
         )
-        return main_genre
+        return main_genre_name
 
-    for spotify_genre in spotify_artist.genres:
-        if 'indie' in spotify_genre:
-            return 'Rock'
-        if 'house' in spotify_genre:
-            return 'Electronic'
-        if 'funk' in spotify_genre:
-            return 'R&B'
-        if 'soul' in spotify_genre:
-            return 'R&B'
-        if 'adult standards' in spotify_genre:
-            return 'Pop'
+    return None
 
-    return 'Unknown'
+
+def _subgenre_alias_match(spotify_genres, _):
+    for spotify_genre in spotify_genres:
+        for subgenre, main_genre_name in graph_constants.SUBGENRE_TO_MAIN_GENRE_ALIASES.items():
+            if subgenre in spotify_genre:
+                return main_genre_name
+
+    return None
 
 
 def _choose_best_subgenre_name_for_artist(spotify_artist, main_genre_name,

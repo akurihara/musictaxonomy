@@ -1,21 +1,6 @@
-from sqlalchemy import Column, ForeignKey, Integer, String
-
 from musictaxonomy.database import Base
-
-MAIN_GENRE_TO_COLOR = {
-    'Pop': '#32aae1',
-    'Rock': '#be2332',
-    'Hip Hop': '#283c8c',
-    'Folk': '#283c8c',
-    'Jazz': '#643291',
-    'Country': '#643291',
-    'Electronic': '#ebe16e',
-    'Classical': '#ebe16e',
-    'Blues': '#8c5a32',
-    'Reggae': '#8c5a32',
-    'R&B': '#eb287d',
-    'Unknown': '#c8c8c8',
-}
+from musictaxonomy.graph import constants as graph_constants
+from sqlalchemy import Column, ForeignKey, Integer, String
 
 
 class Artist(Base):
@@ -130,7 +115,7 @@ class TaxonomyGraph(object):
         main_genre = destination_node.main_genre
 
         return {
-            'color': MAIN_GENRE_TO_COLOR[main_genre],
+            'color': graph_constants.MAIN_GENRE_TO_COLOR[main_genre],
             'source': source_node.id,
             'target': destination_node.id,
         }
@@ -215,7 +200,7 @@ class GenreNode(Node):
             'id': self.id,
             'name': self.name,
             'size': size,
-            'strokeColor': MAIN_GENRE_TO_COLOR[self.id],
+            'strokeColor': graph_constants.MAIN_GENRE_TO_COLOR[self.id],
         }
 
 
@@ -243,7 +228,7 @@ class SubgenreNode(Node):
             'id': self.id,
             'name': self.name,
             'size': size,
-            'strokeColor': MAIN_GENRE_TO_COLOR[self.main_genre],
+            'strokeColor': graph_constants.MAIN_GENRE_TO_COLOR[self.main_genre],
         }
 
 
@@ -265,5 +250,5 @@ class ArtistNode(Node):
             'id': self.id,
             'name': self.name,
             'size': 100,
-            'strokeColor': MAIN_GENRE_TO_COLOR[self.main_genre],
+            'strokeColor': graph_constants.MAIN_GENRE_TO_COLOR[self.main_genre],
         }
