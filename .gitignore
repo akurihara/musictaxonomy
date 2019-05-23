@@ -9,5 +9,4 @@ node_modules
 tags
 .mypy_cache
 .coverage
-.coveragerc
 bundle.js
