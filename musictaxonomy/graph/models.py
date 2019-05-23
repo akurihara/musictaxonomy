@@ -50,15 +50,6 @@ class TaxonomyGraph(object):
             for neighbor in node.get_neighbors()
         ]
 
-    def add_node(self, id):
-        if id in self.nodes:
-            raise Exception('Graph already contains node with ID {}'.format(id))
-
-        new_node = Node(id)
-        self.nodes[id] = new_node
-
-        return new_node
-
     def add_genre_node(self, id):
         if id in self.nodes:
             raise Exception('Graph already contains node with ID {}'.format(id))
@@ -96,10 +87,6 @@ class TaxonomyGraph(object):
         self.add_edge(genre_node, subgenre_node)
         subgenre_node.set_main_genre(genre_node.id)
 
-    def add_genre_to_artist_edge(self, genre_node, artist_node):
-        self.add_edge(genre_node, artist_node)
-        artist_node.set_main_genre(genre_node.id)
-
     def add_subgenre_to_artist_edge(self, subgenre_node, artist_node):
         self.add_edge(subgenre_node, artist_node)
         artist_node.set_main_genre(subgenre_node.main_genre)
@@ -123,9 +110,6 @@ class TaxonomyGraph(object):
     def __contains__(self, node_id):
         return node_id in self.nodes
 
-    def __iter__(self):
-        return iter(self.nodes.values())
-
 
 class Node(object):
 
@@ -145,7 +129,7 @@ class Node(object):
         return {'id': self.id}
 
     def __str__(self):
-        return str(self.id) + ' connected_to: ' + str([neighbor.id for neighbor in self.neighbors])
+        return str(self.id) + ' connected to: ' + str([neighbor.id for neighbor in self.neighbors])
 
 
 class RootNode(Node):
