@@ -11,7 +11,7 @@ class Artist(Base):
     name = Column(String(255), nullable=False)
 
 
-class Genre(Base):
+class MainGenre(Base):
     __tablename__ = 'genres'
 
     id = Column(Integer, primary_key=True)

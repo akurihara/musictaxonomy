@@ -1,7 +1,7 @@
 from collections import defaultdict
 
 from musictaxonomy.graph import constants as graph_constants
-from musictaxonomy.graph.models import Genre, TaxonomyGraph
+from musictaxonomy.graph.models import MainGenre, TaxonomyGraph
 
 __all__ = [
     'build_taxonomy_graph',
@@ -51,7 +51,7 @@ def _get_all_main_genres(session):
     subgenre nodes as children. There is a small, predefined set of these stored
     in the database, they do not come from Spotify.
     """
-    return session.query(Genre).all()
+    return session.query(MainGenre).all()
 
 
 def _get_spotify_genre_popularity_map(spotify_artists):
