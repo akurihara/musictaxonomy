@@ -1,0 +1,22 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+codecov = "*"
+coverage = "*"
+flake8 = "*"
+jsonschema = "*"
+mypy = "*"
+nose = "*"
+pre-commit = "*"
+psycopg2 = "*"
+sqlalchemy = "*"
+tornado = "*"
+vcrpy = "*"
+
+[requires]
+python_version = "3.7"
