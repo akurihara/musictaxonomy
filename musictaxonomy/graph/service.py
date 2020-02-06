@@ -112,7 +112,7 @@ def _add_spotify_artist_to_taxonomy_graph(
 
 def _choose_best_main_genre_name_for_artist(spotify_artist, main_genres):
     if "pop" in spotify_artist.genres and "edm" in spotify_artist.genres:
-        return "Electronic"
+        return graph_constants.MAIN_GENRE_EDM
 
     matching_functions = [_exact_match, _best_substring_match, _subgenre_alias_match]
 
