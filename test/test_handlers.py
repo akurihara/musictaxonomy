@@ -30,11 +30,10 @@ class IndexHandlerTest(AsyncHTTPTestCase):
     )
     def test_get(self):
         headers = {
-            "Cookie": "AccessToken=2|1:0|10:1557112070|11:AccessToken|208:QlFERHdTaF9FTmJPMn"
-            "Z0T1A2bEg2Z0Mtdjk4QzZndjdZV1RBZERZcFp1TTM5SlNmVVBkV2RybGFuX1JoQW1fZlZ"
-            "HajV0djR3dE5fbkxzNjNMRVBvZ2ttRjNEY1dJUmpHNVJzV1VEUTRlVjVKS0lVQV9fSlNO"
-            "S0dpVU9GbHFpdHFYSHgyRHhnN2VRNlduXzN5S1RoZ2RpSk5IeHR2|d960f7c5da188ca1"
-            "3c0e1307e9c91fe81ea9d877308acc90da076738143b70c5"
+            "Cookie": "AccessToken=2|1:0|10:1580964418|11:AccessToken|208:QlFDUnpBQXBXbTQyV1JyWT"
+            "V5dUtnWm50WmFGbWVwTnFETXJfbGxoUVNNVlplZ2lVb3RZdm0xU0Z2cUU3VEhDYjlyajM0dGJuX0NBLTZDX"
+            "zlRRGxCcHVYNlNfVGM2Qkd5OUl2Q1ExdThtRVc0aUdDUUZuZUdLczEyNDFNcWNqS0hFN3VxYnhtcnlFZExa"
+            "SWFiX0N0QmdpdjRsdw==|d355ece9d278c7fbce2219da0c8567be0eb31fc40f16147195062fc2a183b391"
         }
         response = self.fetch(path="/", headers=headers, method="GET")
 
