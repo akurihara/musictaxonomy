@@ -2,7 +2,7 @@
     "name": "music-taxonomy",
     "version": "1.0.0",
     "engines": {
-        "npm": "6.9.0"
+        "npm": ">=6.13.4"
     },
     "scripts": {
         "heroku-postbuild": "cd static/js && npm install && npm run build"
