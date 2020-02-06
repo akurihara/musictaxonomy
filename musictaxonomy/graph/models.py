@@ -4,7 +4,7 @@ from sqlalchemy import Column, ForeignKey, Integer, String
 
 
 class Artist(Base):
-    __tablename__ = 'artists'
+    __tablename__ = "artists"
 
     id = Column(Integer, primary_key=True)
     spotify_id = Column(String(255), nullable=False, index=True)
@@ -12,7 +12,7 @@ class Artist(Base):
 
 
 class MainGenre(Base):
-    __tablename__ = 'genres'
+    __tablename__ = "genres"
 
     id = Column(Integer, primary_key=True)
     spotify_name = Column(String(255), nullable=False)
@@ -20,18 +20,18 @@ class MainGenre(Base):
 
 
 class ArtistGenre(Base):
-    __tablename__ = 'artist_genres'
+    __tablename__ = "artist_genres"
 
     id = Column(Integer, primary_key=True)
-    artist_id = Column(Integer, ForeignKey('artists.id'), nullable=False)
-    genre_id = Column(Integer, ForeignKey('genres.id'), nullable=False)
+    artist_id = Column(Integer, ForeignKey("artists.id"), nullable=False)
+    genre_id = Column(Integer, ForeignKey("genres.id"), nullable=False)
 
 
 class TaxonomyGraph(object):
 
-    __slots__ = ['nodes', 'edges']
+    __slots__ = ["nodes", "edges"]
 
-    ROOT_ID = 'root'
+    ROOT_ID = "root"
 
     def __init__(self, user_display_name):
         root_node = RootNode(self.ROOT_ID, user_display_name)
@@ -52,7 +52,7 @@ class TaxonomyGraph(object):
 
     def add_genre_node(self, id):
         if id in self.nodes:
-            raise Exception('Graph already contains node with ID {}'.format(id))
+            raise Exception("Graph already contains node with ID {}".format(id))
 
         new_node = GenreNode(id)
         self.nodes[id] = new_node
@@ -61,7 +61,7 @@ class TaxonomyGraph(object):
 
     def add_subgenre_node(self, id, name):
         if id in self.nodes:
-            raise Exception('Graph already contains node with ID {}'.format(id))
+            raise Exception("Graph already contains node with ID {}".format(id))
 
         new_node = SubgenreNode(id, name)
         self.nodes[id] = new_node
@@ -70,7 +70,7 @@ class TaxonomyGraph(object):
 
     def add_artist_node(self, id, name):
         if id in self.nodes:
-            raise Exception('Graph already contains node with ID {}'.format(id))
+            raise Exception("Graph already contains node with ID {}".format(id))
 
         new_node = ArtistNode(id, name)
         self.nodes[id] = new_node
@@ -93,8 +93,8 @@ class TaxonomyGraph(object):
 
     def render_as_json(self):
         return {
-            'nodes': [node.render_as_json() for node in self.get_nodes()],
-            'links': [self._render_edge_as_json(edge) for edge in self.get_edges()],
+            "nodes": [node.render_as_json() for node in self.get_nodes()],
+            "links": [self._render_edge_as_json(edge) for edge in self.get_edges()],
         }
 
     def _render_edge_as_json(self, edge):
@@ -102,9 +102,9 @@ class TaxonomyGraph(object):
         main_genre = destination_node.main_genre
 
         return {
-            'color': graph_constants.MAIN_GENRE_TO_COLOR[main_genre],
-            'source': source_node.id,
-            'target': destination_node.id,
+            "color": graph_constants.MAIN_GENRE_TO_COLOR[main_genre],
+            "source": source_node.id,
+            "target": destination_node.id,
         }
 
     def __contains__(self, node_id):
@@ -113,7 +113,7 @@ class TaxonomyGraph(object):
 
 class Node(object):
 
-    __slots__ = ['id', 'neighbors']
+    __slots__ = ["id", "neighbors"]
 
     def __init__(self, id):
         self.id = id
@@ -126,15 +126,17 @@ class Node(object):
         return list(self.neighbors)
 
     def render_as_json(self):
-        return {'id': self.id}
+        return {"id": self.id}
 
     def __str__(self):
-        return str(self.id) + ' connected to: ' + str([neighbor.id for neighbor in self.neighbors])
+        return "{} connected to: {}".format(
+            str(self.id), str([neighbor.id for neighbor in self.neighbors])
+        )
 
 
 class RootNode(Node):
 
-    __slots__ = ['id', 'name', 'neighbors']
+    __slots__ = ["id", "name", "neighbors"]
 
     def __init__(self, id, name):
         super().__init__(id)
@@ -142,27 +144,24 @@ class RootNode(Node):
 
     @property
     def number_of_artists_in_graph(self):
-        return sum([
-            genre.number_of_artists_in_genre for genre
-            in self.neighbors
-        ])
+        return sum([genre.number_of_artists_in_genre for genre in self.neighbors])
 
     def render_as_json(self):
         size = 100 + (25 * self.number_of_artists_in_graph)
 
         return {
-            'id': self.id,
-            'color': 'white',
-            'fontSize': 20.0,
-            'name': self.name,
-            'strokeColor': '#000000',
-            'size': size,
+            "id": self.id,
+            "color": "white",
+            "fontSize": 20.0,
+            "name": self.name,
+            "strokeColor": "#000000",
+            "size": size,
         }
 
 
 class GenreNode(Node):
 
-    __slots__ = ['id', 'main_genre', 'name', 'neighbors']
+    __slots__ = ["id", "main_genre", "name", "neighbors"]
 
     def __init__(self, id):
         super().__init__(id)
@@ -171,26 +170,29 @@ class GenreNode(Node):
 
     @property
     def number_of_artists_in_genre(self):
-        return sum([
-            subgenre.number_of_artists_in_subgenre for subgenre
-            in self.neighbors if isinstance(subgenre, SubgenreNode)
-        ])
+        return sum(
+            [
+                subgenre.number_of_artists_in_subgenre
+                for subgenre in self.neighbors
+                if isinstance(subgenre, SubgenreNode)
+            ]
+        )
 
     def render_as_json(self):
         size = 100 + (25 * self.number_of_artists_in_genre)
 
         return {
-            'fontSize': 18,
-            'id': self.id,
-            'name': self.name,
-            'size': size,
-            'strokeColor': graph_constants.MAIN_GENRE_TO_COLOR[self.id],
+            "fontSize": 18,
+            "id": self.id,
+            "name": self.name,
+            "size": size,
+            "strokeColor": graph_constants.MAIN_GENRE_TO_COLOR[self.id],
         }
 
 
 class SubgenreNode(Node):
 
-    __slots__ = ['id', 'main_genre', 'name', 'neighbors']
+    __slots__ = ["id", "main_genre", "name", "neighbors"]
 
     def __init__(self, id, name):
         super().__init__(id)
@@ -208,17 +210,17 @@ class SubgenreNode(Node):
         size = 100 + (25 * self.number_of_artists_in_subgenre)
 
         return {
-            'fontSize': 14,
-            'id': self.id,
-            'name': self.name,
-            'size': size,
-            'strokeColor': graph_constants.MAIN_GENRE_TO_COLOR[self.main_genre],
+            "fontSize": 14,
+            "id": self.id,
+            "name": self.name,
+            "size": size,
+            "strokeColor": graph_constants.MAIN_GENRE_TO_COLOR[self.main_genre],
         }
 
 
 class ArtistNode(Node):
 
-    __slots__ = ['id', 'main_genre', 'name', 'neighbors']
+    __slots__ = ["id", "main_genre", "name", "neighbors"]
 
     def __init__(self, id, name):
         super().__init__(id)
@@ -230,9 +232,9 @@ class ArtistNode(Node):
 
     def render_as_json(self):
         return {
-            'fontSize': 12,
-            'id': self.id,
-            'name': self.name,
-            'size': 100,
-            'strokeColor': graph_constants.MAIN_GENRE_TO_COLOR[self.main_genre],
+            "fontSize": 12,
+            "id": self.id,
+            "name": self.name,
+            "size": 100,
+            "strokeColor": graph_constants.MAIN_GENRE_TO_COLOR[self.main_genre],
         }

@@ -1,35 +1,35 @@
-MAIN_GENRE_POP = 'Pop'
-MAIN_GENRE_ROCK = 'Rock'
-MAIN_GENRE_HIP_HOP = 'Hip Hop'
-MAIN_GENRE_JAZZ = 'Jazz'
-MAIN_GENRE_FOLK = 'Folk'
-MAIN_GENRE_COUNTRY = 'Country'
-MAIN_GENRE_EDM = 'Electronic'
-MAIN_GENRE_CLASSICAL = 'Classical'
-MAIN_GENRE_BLUES = 'Blues'
-MAIN_GENRE_REGGAE = 'Reggae'
-MAIN_GENRE_RB = 'R&B'
-MAIN_GENRE_UNKNOWN = 'Unknown'
+MAIN_GENRE_POP = "Pop"
+MAIN_GENRE_ROCK = "Rock"
+MAIN_GENRE_HIP_HOP = "Hip Hop"
+MAIN_GENRE_JAZZ = "Jazz"
+MAIN_GENRE_FOLK = "Folk"
+MAIN_GENRE_COUNTRY = "Country"
+MAIN_GENRE_EDM = "Electronic"
+MAIN_GENRE_CLASSICAL = "Classical"
+MAIN_GENRE_BLUES = "Blues"
+MAIN_GENRE_REGGAE = "Reggae"
+MAIN_GENRE_RB = "R&B"
+MAIN_GENRE_UNKNOWN = "Unknown"
 
 MAIN_GENRE_TO_COLOR = {
-    MAIN_GENRE_POP: '#32aae1',
-    MAIN_GENRE_ROCK: '#be2332',
-    MAIN_GENRE_HIP_HOP: '#283c8c',
-    MAIN_GENRE_JAZZ: '#283c8c',
-    MAIN_GENRE_FOLK: '#643291',
-    MAIN_GENRE_COUNTRY: '#643291',
-    MAIN_GENRE_EDM: '#ebe16e',
-    MAIN_GENRE_CLASSICAL: '#ebe16e',
-    MAIN_GENRE_BLUES: '#8c5a32',
-    MAIN_GENRE_REGGAE: '#8c5a32',
-    MAIN_GENRE_RB: '#eb287d',
-    MAIN_GENRE_UNKNOWN: '#c8c8c8',
+    MAIN_GENRE_POP: "#32aae1",
+    MAIN_GENRE_ROCK: "#be2332",
+    MAIN_GENRE_HIP_HOP: "#283c8c",
+    MAIN_GENRE_JAZZ: "#283c8c",
+    MAIN_GENRE_FOLK: "#643291",
+    MAIN_GENRE_COUNTRY: "#643291",
+    MAIN_GENRE_EDM: "#ebe16e",
+    MAIN_GENRE_CLASSICAL: "#ebe16e",
+    MAIN_GENRE_BLUES: "#8c5a32",
+    MAIN_GENRE_REGGAE: "#8c5a32",
+    MAIN_GENRE_RB: "#eb287d",
+    MAIN_GENRE_UNKNOWN: "#c8c8c8",
 }
 
 SUBGENRE_TO_MAIN_GENRE_ALIASES = {
-    'indie': MAIN_GENRE_ROCK,
-    'house': MAIN_GENRE_EDM,
-    'funk': MAIN_GENRE_RB,
-    'soul': MAIN_GENRE_RB,
-    'adult standards': MAIN_GENRE_POP,
+    "indie": MAIN_GENRE_ROCK,
+    "house": MAIN_GENRE_EDM,
+    "funk": MAIN_GENRE_RB,
+    "soul": MAIN_GENRE_RB,
+    "adult standards": MAIN_GENRE_POP,
 }

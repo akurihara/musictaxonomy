@@ -1,6 +1,6 @@
 class SpotifyUser(object):
 
-    __slots__ = ['id', 'display_name']
+    __slots__ = ["id", "display_name"]
 
     def __init__(self, id, display_name):
         self.id = id
@@ -12,7 +12,7 @@ class SpotifyUser(object):
 
 class SpotifyArtist(object):
 
-    __slots__ = ['id', 'name', 'genres']
+    __slots__ = ["id", "name", "genres"]
 
     def __init__(self, id, name, genres):
         self.id = id

@@ -4,7 +4,6 @@ from musictaxonomy.spotify import service as spotify_service
 
 
 class LoginHandler(BaseAPIHandler):
-
     async def get(self):
         """
         Before using Music Taxonomy, a user must authenticate with Spotify's Oauth. This
@@ -21,19 +20,19 @@ class LoginHandler(BaseAPIHandler):
 
         # User is already logged in, so redirect them to the core application.
         if is_access_token_valid:
-            return self.redirect('/', permanent=False)
+            return self.redirect("/", permanent=False)
 
-        redirect_base_url = '{protocol}://{host}'.format(
-            protocol=self.request.protocol,
-            host=self.request.host,
+        redirect_base_url = "{protocol}://{host}".format(
+            protocol=self.request.protocol, host=self.request.host
         )
-        spotify_authorize_url = auth_service.generate_spotify_authorize_url(redirect_base_url)
+        spotify_authorize_url = auth_service.generate_spotify_authorize_url(
+            redirect_base_url
+        )
 
         return self.redirect(spotify_authorize_url, permanent=False)
 
 
 class OauthCallbackHandler(BaseAPIHandler):
-
     async def get(self):
         """
         This endpoint is the second and final step of the authentication flow. At this point
@@ -46,24 +45,22 @@ class OauthCallbackHandler(BaseAPIHandler):
         For more information, see:
         https://developer.spotify.com/documentation/general/guides/authorization-guide
         """
-        authorization_code = self.get_argument('code')
+        authorization_code = self.get_argument("code")
 
         # Exchange the authorization code for an access token from Spotify.
-        redirect_base_url = '{protocol}://{host}'.format(
-            protocol=self.request.protocol,
-            host=self.request.host,
+        redirect_base_url = "{protocol}://{host}".format(
+            protocol=self.request.protocol, host=self.request.host
         )
         access_token = await auth_service.get_spotify_access_token(
-            authorization_code,
-            redirect_base_url,
+            authorization_code, redirect_base_url
         )
 
         # Set the access token as a cookie.
-        self.set_secure_cookie('AccessToken', access_token)
+        self.set_secure_cookie("AccessToken", access_token)
 
         # Create a new User in the database if one does not already exist.
         spotify_user = await spotify_service.get_spotify_user(access_token)
         await auth_service.create_new_user_if_necessary(spotify_user)
 
         # Redirect the user to the core application.
-        return self.redirect('/', permanent=False)
+        return self.redirect("/", permanent=False)

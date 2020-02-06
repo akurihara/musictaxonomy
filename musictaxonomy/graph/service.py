@@ -3,9 +3,7 @@ from collections import defaultdict
 from musictaxonomy.graph import constants as graph_constants
 from musictaxonomy.graph.models import MainGenre, TaxonomyGraph
 
-__all__ = [
-    'build_taxonomy_graph',
-]
+__all__ = ["build_taxonomy_graph"]
 
 
 def build_taxonomy_graph(session, spotify_user, spotify_artists):
@@ -70,8 +68,7 @@ def _filter_out_duplicate_spotify_artists(spotify_artists):
     out any duplicates.
     """
     spotify_artist_dictionary = {
-        spotify_artist.id: spotify_artist
-        for spotify_artist in spotify_artists
+        spotify_artist.id: spotify_artist for spotify_artist in spotify_artists
     }
 
     return list(spotify_artist_dictionary.values())
@@ -83,19 +80,20 @@ def _filter_out_spotify_artists_without_genres(spotify_artists):
     Spotify returned with an empty genre list.
     """
     return [
-        spotify_artist for spotify_artist in spotify_artists
+        spotify_artist
+        for spotify_artist in spotify_artists
         if len(spotify_artist.genres) > 0
     ]
 
 
-def _add_spotify_artist_to_taxonomy_graph(session, spotify_artist, taxonomy_graph,
-                                          main_genres, spotify_genre_popularity_map):
-    main_genre_name = _choose_best_main_genre_name_for_artist(spotify_artist, main_genres)
+def _add_spotify_artist_to_taxonomy_graph(
+    session, spotify_artist, taxonomy_graph, main_genres, spotify_genre_popularity_map
+):
+    main_genre_name = _choose_best_main_genre_name_for_artist(
+        spotify_artist, main_genres
+    )
     subgenre_name = _choose_best_subgenre_name_for_artist(
-        spotify_artist,
-        main_genre_name,
-        main_genres,
-        spotify_genre_popularity_map,
+        spotify_artist, main_genre_name, main_genres, spotify_genre_popularity_map
     )
 
     # We could not find a subgenre for the artist, so skip adding them to the graph.
@@ -103,7 +101,9 @@ def _add_spotify_artist_to_taxonomy_graph(session, spotify_artist, taxonomy_grap
         return None
 
     main_genre_node = _get_or_create_main_genre_node(main_genre_name, taxonomy_graph)
-    subgenre_node = _get_or_create_subgenre_node(subgenre_name, taxonomy_graph, main_genre_node)
+    subgenre_node = _get_or_create_subgenre_node(
+        subgenre_name, taxonomy_graph, main_genre_node
+    )
     artist_node = taxonomy_graph.add_artist_node(spotify_artist.id, spotify_artist.name)
     taxonomy_graph.add_subgenre_to_artist_edge(subgenre_node, artist_node)
 
@@ -111,14 +111,10 @@ def _add_spotify_artist_to_taxonomy_graph(session, spotify_artist, taxonomy_grap
 
 
 def _choose_best_main_genre_name_for_artist(spotify_artist, main_genres):
-    if 'pop' in spotify_artist.genres and 'edm' in spotify_artist.genres:
-        return 'Electronic'
+    if "pop" in spotify_artist.genres and "edm" in spotify_artist.genres:
+        return "Electronic"
 
-    matching_functions = [
-        _exact_match,
-        _best_substring_match,
-        _subgenre_alias_match,
-    ]
+    matching_functions = [_exact_match, _best_substring_match, _subgenre_alias_match]
 
     for matching_function in matching_functions:
         main_genre_name = matching_function(spotify_artist.genres, main_genres)
@@ -148,7 +144,7 @@ def _best_substring_match(spotify_genres, main_genres):
     if len(main_genre_substring_matches) > 0:
         main_genre_name = max(
             main_genre_substring_matches.keys(),
-            key=lambda key: main_genre_substring_matches[key]
+            key=lambda key: main_genre_substring_matches[key],
         )
         return main_genre_name
 
@@ -157,20 +153,22 @@ def _best_substring_match(spotify_genres, main_genres):
 
 def _subgenre_alias_match(spotify_genres, _):
     for spotify_genre in spotify_genres:
-        for subgenre, main_genre_name in graph_constants.SUBGENRE_TO_MAIN_GENRE_ALIASES.items():
+        for (
+            subgenre,
+            main_genre_name,
+        ) in graph_constants.SUBGENRE_TO_MAIN_GENRE_ALIASES.items():
             if subgenre in spotify_genre:
                 return main_genre_name
 
     return None
 
 
-def _choose_best_subgenre_name_for_artist(spotify_artist, main_genre_name,
-                                          main_genres, spotify_genre_popularity_map):
+def _choose_best_subgenre_name_for_artist(
+    spotify_artist, main_genre_name, main_genres, spotify_genre_popularity_map
+):
     spotify_artist_genres = _filter_out_main_genres(spotify_artist.genres, main_genres)
     subgenre_name = _choose_subgenre_name_from_spotify_genres(
-        main_genre_name,
-        spotify_artist_genres,
-        spotify_genre_popularity_map,
+        main_genre_name, spotify_artist_genres, spotify_genre_popularity_map
     )
 
     return subgenre_name
@@ -178,18 +176,19 @@ def _choose_best_subgenre_name_for_artist(spotify_artist, main_genre_name,
 
 def _filter_out_main_genres(spotify_arist_genres, main_genres):
     main_genre_spotify_names = {main_genre.spotify_name for main_genre in main_genres}
-    return [genre for genre in spotify_arist_genres if genre not in main_genre_spotify_names]
+    return [
+        genre for genre in spotify_arist_genres if genre not in main_genre_spotify_names
+    ]
 
 
-def _choose_subgenre_name_from_spotify_genres(main_genre, spotify_genres,
-                                              spotify_genre_popularity_map):
+def _choose_subgenre_name_from_spotify_genres(
+    main_genre, spotify_genres, spotify_genre_popularity_map
+):
     if len(spotify_genres) == 0:
         return None
 
     spotify_genres_sorted_by_popularity = sorted(
-        spotify_genres,
-        key=lambda x: spotify_genre_popularity_map[x],
-        reverse=True,
+        spotify_genres, key=lambda x: spotify_genre_popularity_map[x], reverse=True
     )
 
     return spotify_genres_sorted_by_popularity[0]
@@ -217,7 +216,9 @@ def _get_or_create_subgenre_node(subgenre_name, taxonomy_graph, main_genre_node)
     if subgenre_name in taxonomy_graph:
         subgenre_node = taxonomy_graph.get_node(subgenre_name)
     else:
-        subgenre_node = taxonomy_graph.add_subgenre_node(subgenre_name, subgenre_name.title())
+        subgenre_node = taxonomy_graph.add_subgenre_node(
+            subgenre_name, subgenre_name.title()
+        )
         taxonomy_graph.add_genre_to_subgenre_edge(main_genre_node, subgenre_node)
 
     return subgenre_node
