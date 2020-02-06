@@ -54,6 +54,11 @@ Then, nagivate to `localhost:8080` in your browser.
 
 ## Running Tests
 
+Activate the virtual environment.
+```
+$ pipenv shell
+```
+
 Create a test database if you haven't done so already:
 ```
 $ sqlite3 test_database.db
