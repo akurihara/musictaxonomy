@@ -14,15 +14,16 @@ It was inspired an [infographic](https://turnerkarl.wordpress.com/2012/10/11/fin
 
 1. Create a virtual environment and install dependencies.
    ```
+   $ brew install pyenv
    $ pyenv install 3.7.2
-   $ pyenv virtualenv 3.7.2 music-taxonomy
-   $ pyenv activate music-taxonomy
-   (music-taxonomy) $ pip install --upgrade -r requirements.txt
+   $ pyenv local 3.7.2
+   $ brew install pipenv
+   $ pipenv install
    ```
 
 2. Set up environmental variables
    ```
-   touch .env
+   cp .env.sample .env
    ```
 
    Add the following variables to the .env file:
@@ -34,7 +35,7 @@ It was inspired an [infographic](https://turnerkarl.wordpress.com/2012/10/11/fin
    ```
    $ brew install sqlite3
    $ sqlite3 database.db
-   $ source .env && scripts/initialize_database.py
+   $ pipenv run python scripts/initialize_database.py
    ```
 
 4. Build the React frontend using:
@@ -47,7 +48,7 @@ It was inspired an [infographic](https://turnerkarl.wordpress.com/2012/10/11/fin
 
 Run the server locally from the root directory with:
 ```
-$ python server.py --port=8080
+$ pipenv run python server.py --port=8080
 ```
 Then, nagivate to `localhost:8080` in your browser.
 
