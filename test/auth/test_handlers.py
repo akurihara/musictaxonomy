@@ -57,13 +57,12 @@ class LoginHandlerTest(AsyncHTTPTestCase):
         "test/auth/cassettes/login_handler_test/test_get_with_invalid_access_token.yml",
         ignore_localhost=True,
     )
-    def test_get_with_invalid_access_token(self):
-        headers = {
-            "Cookie": "AccessToken=2|1:0|10:1580964418|11:AccessToken|208:QlFDUnpBQXBXbTQyV1JyWT"
-            "V5dUtnWm50WmFGbWVwTnFETXJfbGxoUVNNVlplZ2lVb3RZdm0xU0Z2cUU3VEhDYjlyajM0dGJuX0NBLTZDX"
-            "zlRRGxCcHVYNlNfVGM2Qkd5OUl2Q1ExdThtRVc0aUdDUUZuZUdLczEyNDFNcWNqS0hFN3VxYnhtcnlFZExa"
-            "SWFiX0N0QmdpdjRsdw==|d355ece9d278c7fbce2219da0c8567be0eb31fc40f16147195062fc2a183b391"
-        }
+    @patch(
+        "musictaxonomy.handlers.BaseAPIHandler.get_secure_cookie",
+        return_value="invalid_access_token".encode(),
+    )
+    def test_get_with_invalid_access_token(self, _):
+        headers = {"Cookie": "AccessToken=invalid_access_token"}
         response = self.fetch(
             path="/login", method="GET", headers=headers, follow_redirects=False
         )

@@ -3,7 +3,7 @@ interactions:
     body: null
     headers:
       Authorization:
-      - Bearer invalid
+      - Bearer invalid_access_token
     method: GET
     uri: https://api.spotify.com/v1/me
   response:
