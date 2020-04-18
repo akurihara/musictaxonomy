@@ -3,7 +3,7 @@ interactions:
     body: null
     headers:
       Authorization:
-      - Bearer BQDDwSh_ENbO2vtOP6lH6gC-v98C6gv7YWTAdDYpZuM39JSfUPdWdrlan_RhAm_fVGj5tv4wtN_nLs63LEPogkmF3DcWIRjG5RsWUDQ4eV5JKIUA__JSNKGiUOFlqitqXHx2Dxg7eQ6Wn_3yKThgdiJNHxtv
+      - test_access_token
     method: GET
     uri: https://api.spotify.com/v1/me
   response:

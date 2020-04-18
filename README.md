@@ -62,7 +62,7 @@ $ pipenv shell
 Create a test database if you haven't done so already:
 ```
 $ sqlite3 test_database.db
-$ source .env.test && scripts/initialize_database.py
+$ source .env.test && python scripts/initialize_database.py
 ```
 
 Run tests with:
