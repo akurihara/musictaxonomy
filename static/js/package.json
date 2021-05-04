@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "acorn": "^6.4.1",
-    "axios": "~0.18.1",
+    "axios": "~0.21.1",
     "babelify": "~6.4.0",
     "braces": "^3.0.2",
     "classnames": "~2.2.6",
