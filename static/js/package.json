@@ -32,6 +32,6 @@
     "react-redux": "~6.0.0",
     "redux": "~4.0.1",
     "set-value": "^3.0.1",
-    "shell-quote": "~1.6.1"
+    "shell-quote": "~1.7.3"
   }
 }
