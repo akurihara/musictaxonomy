@@ -1,5 +1,5 @@
 backports-abc==0.5
-codecov==2.0.15
+codecov==2.0.16
 coverage==4.5.3
 flake8==3.7.7
 jsonschema==3.0.1
