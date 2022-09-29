@@ -18,7 +18,7 @@
     "babelify": "~6.4.0",
     "braces": "^3.0.2",
     "classnames": "~2.2.6",
-    "d3": "~5.7.0",
+    "d3": "~7.6.1",
     "grunt": "^1.0.4",
     "grunt-browserify": "~4.0.1",
     "js-yaml": "~3.13.1",
